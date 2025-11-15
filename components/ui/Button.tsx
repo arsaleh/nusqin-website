@@ -73,8 +73,9 @@ export default function Button({
   };
 
   if ('href' in props && props.href) {
+    const { href, ...linkProps } = props;
     return (
-      <Link href={props.href} className={classes} style={getStyles()} {...props}>
+      <Link href={href} className={classes} style={getStyles()} {...linkProps}>
         {children}
       </Link>
     );
