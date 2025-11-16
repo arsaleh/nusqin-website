@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: nusqin-espocrm-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: espocrm
+      MYSQL_USER: espocrm
+      MYSQL_PASSWORD: espocrm_password
+    volumes:
+      - espocrm-mysql-data:/var/lib/mysql
+    networks:
+      - espocrm-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  espocrm:
+    image: espocrm/espocrm:latest
+    container_name: nusqin-espocrm
+    ports:
+      - "8080:80"
+    environment:
+      ESPOCRM_DATABASE_HOST: mysql
+      ESPOCRM_DATABASE_NAME: espocrm
+      ESPOCRM_DATABASE_USER: espocrm
+      ESPOCRM_DATABASE_PASSWORD: espocrm_password
+      ESPOCRM_ADMIN_USERNAME: admin
+      ESPOCRM_ADMIN_PASSWORD: nusqin2025
+      ESPOCRM_SITE_URL: "http://localhost:8080"
+    volumes:
+      - espocrm-data:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - espocrm-network
+    restart: unless-stopped
+
+volumes:
+  espocrm-mysql-data:
+    driver: local
+  espocrm-data:
+    driver: local
+
+networks:
+  espocrm-network:
+    driver: bridge
