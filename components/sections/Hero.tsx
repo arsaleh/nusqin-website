@@ -1,40 +1,66 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Button from '@/components/ui/Button';
 import { COMPANY_INFO } from '@/lib/constants';
 
+// Treatment images for slider from nusqin.com
+const sliderImages = [
+  {
+    src: 'https://nusqin.com/wp-content/uploads/2024/04/WhatsApp-Image-2024-04-18-at-9.41.25-PM.jpeg',
+    alt: 'Botox Treatment'
+  },
+  {
+    src: 'https://nusqin.com/wp-content/uploads/2024/04/WhatsApp-Image-2024-04-16-at-4.02.55-AM-1.jpeg',
+    alt: 'Dermal Fillers'
+  },
+  {
+    src: 'https://nusqin.com/wp-content/uploads/2024/04/woman-holding-device-microneedle-mesotherapy-doing-skin-resurfacing-procedure-1471428695_6847x4565-scaled.jpeg',
+    alt: 'Microneedling Treatment'
+  },
+  {
+    src: 'https://nusqin.com/wp-content/uploads/2024/04/Laser.jpg',
+    alt: 'Laser Treatment'
+  },
+  {
+    src: 'https://nusqin.com/wp-content/uploads/2024/04/prp-therapy-process-for-hair-loss-1364189789_8192x5464.jpeg',
+    alt: 'PRP Therapy'
+  },
+];
+
 export default function Hero() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Auto-advance slider every 5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      {/* Video Background */}
+      {/* Image Slider Background */}
       <div className="absolute inset-0 w-full h-full">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute w-full h-full object-cover"
-          style={{ filter: 'brightness(0.35)' }}
-        >
-          {/*
-            TO ADD YOUR VIDEO:
-            1. Download a video from:
-               - Pexels: https://www.pexels.com/search/videos/medical%20spa/
-               - Pixabay: https://pixabay.com/videos/search/aesthetic%20clinic/
-               - Coverr: https://coverr.co/stock-video-footage/spa
-
-            2. Save it to: /Users/arsl/code/beauty-clinic/nusqin-website/public/videos/hero-background.mp4
-
-            3. Recommended: Look for calm, professional spa/clinic footage
-               - Facial treatment close-ups
-               - Hands performing skincare
-               - Soft, professional aesthetic clinic atmosphere
-          */}
-          <source
-            src="/videos/hero-background.mp4"
-            type="video/mp4"
-          />
-        </video>
+        {sliderImages.map((image, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === currentSlide ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <Image
+              src={image.src}
+              alt={image.alt}
+              fill
+              className="object-cover"
+              style={{ filter: 'brightness(0.35)' }}
+              priority={index === 0}
+            />
+          </div>
+        ))}
 
         {/* Gradient Overlay for better text readability */}
         <div
@@ -159,8 +185,24 @@ export default function Hero() {
         </div>
       </div>
 
+      {/* Slider Indicators */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
+        {sliderImages.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentSlide(index)}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              index === currentSlide
+                ? 'bg-white w-8'
+                : 'bg-white/50 hover:bg-white/75'
+            }`}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
+      </div>
+
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 animate-bounce">
         <svg
           className="w-6 h-6 text-white"
           style={{ opacity: 0.7 }}
