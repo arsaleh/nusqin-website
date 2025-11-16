@@ -41,171 +41,215 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      {/* Image Slider Background */}
-      <div className="absolute inset-0 w-full h-full">
-        {sliderImages.map((image, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentSlide ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              className="object-cover"
-              style={{ filter: 'brightness(0.35)' }}
-              priority={index === 0}
+    <section className="relative min-h-screen flex items-center overflow-hidden" style={{ backgroundColor: 'var(--color-cream)' }}>
+      {/* Split Layout Container */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+          {/* Left Side - Content */}
+          <div className="order-2 lg:order-1 text-center lg:text-left space-y-8">
+            {/* Eyebrow Text */}
+            <div
+              className="inline-block px-4 py-2 rounded-full text-xs uppercase tracking-widest"
+              style={{
+                backgroundColor: 'var(--color-primary)',
+                color: 'white',
+                fontFamily: 'var(--font-label)',
+                letterSpacing: '0.15em'
+              }}
+            >
+              Premium Medical Aesthetics
+            </div>
+
+            {/* Main Heading */}
+            <h1
+              className="text-5xl sm:text-6xl lg:text-7xl font-light leading-tight"
+              style={{
+                fontFamily: 'var(--font-heading)',
+                color: 'var(--color-brown)',
+                letterSpacing: '-0.02em'
+              }}
+            >
+              Where Science
+              <br />
+              <span style={{ color: 'var(--color-primary)' }}>Meets Artistry</span>
+            </h1>
+
+            {/* Subheading */}
+            <p
+              className="text-lg sm:text-xl max-w-xl"
+              style={{
+                fontFamily: 'var(--font-body)',
+                color: 'var(--color-brown)',
+                opacity: 0.85,
+                letterSpacing: '0.02em',
+                lineHeight: '1.8'
+              }}
+            >
+              Redefining standards of medically directed aesthetic care with cutting-edge treatments and personalized attention.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <Button href="/contact" size="lg">
+                Book Free Consultation
+              </Button>
+              <Button href="/#treatments" variant="outline" size="lg">
+                Explore Treatments
+              </Button>
+            </div>
+
+            {/* Trust Stats */}
+            <div className="grid grid-cols-3 gap-6 pt-8 border-t" style={{ borderColor: 'var(--color-sage)' }}>
+              <div>
+                <div
+                  className="text-3xl font-light mb-1"
+                  style={{
+                    fontFamily: 'var(--font-heading)',
+                    color: 'var(--color-primary)'
+                  }}
+                >
+                  10+
+                </div>
+                <div
+                  className="text-xs uppercase"
+                  style={{
+                    fontFamily: 'var(--font-label)',
+                    color: 'var(--color-brown)',
+                    opacity: 0.7,
+                    letterSpacing: '0.1em'
+                  }}
+                >
+                  Years Experience
+                </div>
+              </div>
+              <div>
+                <div
+                  className="text-3xl font-light mb-1"
+                  style={{
+                    fontFamily: 'var(--font-heading)',
+                    color: 'var(--color-primary)'
+                  }}
+                >
+                  5000+
+                </div>
+                <div
+                  className="text-xs uppercase"
+                  style={{
+                    fontFamily: 'var(--font-label)',
+                    color: 'var(--color-brown)',
+                    opacity: 0.7,
+                    letterSpacing: '0.1em'
+                  }}
+                >
+                  Happy Clients
+                </div>
+              </div>
+              <div>
+                <div
+                  className="text-3xl font-light mb-1"
+                  style={{
+                    fontFamily: 'var(--font-heading)',
+                    color: 'var(--color-primary)'
+                  }}
+                >
+                  8
+                </div>
+                <div
+                  className="text-xs uppercase"
+                  style={{
+                    fontFamily: 'var(--font-label)',
+                    color: 'var(--color-brown)',
+                    opacity: 0.7,
+                    letterSpacing: '0.1em'
+                  }}
+                >
+                  Treatments
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side - Image Slider */}
+          <div className="order-1 lg:order-2 relative">
+            {/* Image Container with Modern Shape */}
+            <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
+              {/* Image Slider */}
+              {sliderImages.map((image, index) => (
+                <div
+                  key={index}
+                  className={`absolute inset-0 transition-opacity duration-1000 ${
+                    index === currentSlide ? 'opacity-100' : 'opacity-0'
+                  }`}
+                >
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    className="object-cover"
+                    priority={index === 0}
+                  />
+                </div>
+              ))}
+
+              {/* Subtle Bottom Gradient for Indicators Visibility */}
+              <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/20 to-transparent" />
+
+              {/* Slider Indicators - Inside Image */}
+              <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2">
+                {sliderImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`h-1 rounded-full transition-all duration-300 ${
+                      index === currentSlide
+                        ? 'bg-white w-8'
+                        : 'bg-white/50 w-1 hover:bg-white/75'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Decorative Element - Floating Badge */}
+            <div
+              className="absolute -top-4 -right-4 w-24 h-24 rounded-full flex items-center justify-center shadow-lg animate-pulse"
+              style={{
+                backgroundColor: 'var(--color-gold)',
+                color: 'white'
+              }}
+            >
+              <div className="text-center">
+                <div className="text-2xl">⚕️</div>
+                <div
+                  className="text-[10px] uppercase font-semibold"
+                  style={{ fontFamily: 'var(--font-label)', letterSpacing: '0.05em' }}
+                >
+                  Medical
+                  <br />
+                  Grade
+                </div>
+              </div>
+            </div>
+
+            {/* Decorative Abstract Shape */}
+            <div
+              className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full opacity-60 blur-2xl"
+              style={{
+                background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-mauve) 100%)',
+              }}
             />
           </div>
-        ))}
 
-        {/* Gradient Overlay for better text readability */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'linear-gradient(135deg, rgba(71, 66, 64, 0.65) 0%, rgba(206, 184, 187, 0.45) 100%)'
-          }}
-        />
-      </div>
-
-      {/* Content Container */}
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 text-center">
-        {/* Main Heading */}
-        <h1
-          className="text-6xl sm:text-7xl lg:text-[60px] font-light mb-6 leading-tight text-white drop-shadow-2xl"
-          style={{
-            fontFamily: 'var(--font-heading)',
-            letterSpacing: '-0.02em',
-            textShadow: '0 4px 12px rgba(0, 0, 0, 0.5)'
-          }}
-        >
-          Where Science Meets Artistry
-        </h1>
-
-        {/* Subheading */}
-        <p
-          className="text-lg sm:text-xl max-w-2xl mx-auto mb-12 text-white drop-shadow-lg"
-          style={{
-            fontFamily: 'var(--font-body)',
-            opacity: 0.95,
-            letterSpacing: '0.04em',
-            textShadow: '0 2px 8px rgba(0, 0, 0, 0.4)'
-          }}
-        >
-          Redefining standards of medically directed aesthetic care
-        </p>
-
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-20">
-          <Button href="/contact" size="lg">
-            Book Consultation
-          </Button>
-          <Button
-            href="/#treatments"
-            variant="outline"
-            size="lg"
-            style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.95)',
-              borderColor: 'var(--color-brown)',
-              color: 'var(--color-brown)'
-            }}
-          >
-            View Treatments
-          </Button>
         </div>
-
-        {/* Trust Indicators */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 max-w-4xl mx-auto">
-          <div className="text-center backdrop-blur-sm bg-white/10 p-6 rounded-lg transition-all hover:bg-white/20">
-            <div className="text-5xl mb-3">⚕️</div>
-            <h3
-              className="text-sm uppercase mb-2 text-white"
-              style={{
-                fontFamily: 'var(--font-label)',
-                letterSpacing: '0.1em'
-              }}
-            >
-              Medical Excellence
-            </h3>
-            <p
-              className="text-sm text-white"
-              style={{
-                fontFamily: 'var(--font-body)',
-                opacity: 0.9
-              }}
-            >
-              Medically directed aesthetic care
-            </p>
-          </div>
-          <div className="text-center backdrop-blur-sm bg-white/10 p-6 rounded-lg transition-all hover:bg-white/20">
-            <div className="text-5xl mb-3">✨</div>
-            <h3
-              className="text-sm uppercase mb-2 text-white"
-              style={{
-                fontFamily: 'var(--font-label)',
-                letterSpacing: '0.1em'
-              }}
-            >
-              Advanced Technology
-            </h3>
-            <p
-              className="text-sm text-white"
-              style={{
-                fontFamily: 'var(--font-body)',
-                opacity: 0.9
-              }}
-            >
-              State-of-the-art equipment
-            </p>
-          </div>
-          <div className="text-center backdrop-blur-sm bg-white/10 p-6 rounded-lg transition-all hover:bg-white/20">
-            <div className="text-5xl mb-3">💚</div>
-            <h3
-              className="text-sm uppercase mb-2 text-white"
-              style={{
-                fontFamily: 'var(--font-label)',
-                letterSpacing: '0.1em'
-              }}
-            >
-              Personalized Care
-            </h3>
-            <p
-              className="text-sm text-white"
-              style={{
-                fontFamily: 'var(--font-body)',
-                opacity: 0.9
-              }}
-            >
-              Tailored to your unique needs
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Slider Indicators */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
-        {sliderImages.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              index === currentSlide
-                ? 'bg-white w-8'
-                : 'bg-white/50 hover:bg-white/75'
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
         <svg
-          className="w-6 h-6 text-white"
-          style={{ opacity: 0.7 }}
+          className="w-6 h-6"
+          style={{ color: 'var(--color-primary)' }}
           fill="none"
           strokeLinecap="round"
           strokeLinejoin="round"
