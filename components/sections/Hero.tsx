@@ -50,12 +50,13 @@ export default function Hero() {
           <div className="order-2 lg:order-1 text-center lg:text-left space-y-8">
             {/* Eyebrow Text */}
             <div
-              className="inline-block px-4 py-2 rounded-full text-xs uppercase tracking-widest"
+              className="inline-block px-5 py-2.5 rounded-full text-xs uppercase tracking-widest"
               style={{
-                backgroundColor: 'var(--color-primary)',
+                backgroundColor: 'var(--color-gold)',
                 color: 'white',
                 fontFamily: 'var(--font-label)',
-                letterSpacing: '0.15em'
+                letterSpacing: '0.15em',
+                boxShadow: '0 2px 12px rgba(212, 175, 55, 0.25)'
               }}
             >
               Premium Medical Aesthetics
@@ -66,13 +67,16 @@ export default function Hero() {
               className="text-5xl sm:text-6xl lg:text-7xl font-light leading-tight"
               style={{
                 fontFamily: 'var(--font-heading)',
-                color: 'var(--color-brown)',
+                color: 'var(--color-charcoal)',
                 letterSpacing: '-0.02em'
               }}
             >
               Where Science
               <br />
-              <span style={{ color: 'var(--color-primary)' }}>Meets Artistry</span>
+              <span style={{
+                color: 'var(--color-terracotta)',
+                fontWeight: '400'
+              }}>Meets Artistry</span>
             </h1>
 
             {/* Subheading */}
@@ -80,9 +84,8 @@ export default function Hero() {
               className="text-lg sm:text-xl max-w-xl"
               style={{
                 fontFamily: 'var(--font-body)',
-                color: 'var(--color-brown)',
-                opacity: 0.85,
-                letterSpacing: '0.02em',
+                color: 'var(--color-charcoal)',
+                letterSpacing: '0.01em',
                 lineHeight: '1.8'
               }}
             >
@@ -100,13 +103,13 @@ export default function Hero() {
             </div>
 
             {/* Trust Stats */}
-            <div className="grid grid-cols-3 gap-6 pt-8 border-t" style={{ borderColor: 'var(--color-sage)' }}>
+            <div className="grid grid-cols-3 gap-6 pt-8 border-t" style={{ borderColor: 'var(--color-mauve)' }}>
               <div>
                 <div
                   className="text-3xl font-light mb-1"
                   style={{
                     fontFamily: 'var(--font-heading)',
-                    color: 'var(--color-primary)'
+                    color: 'var(--color-gold)'
                   }}
                 >
                   10+
@@ -115,8 +118,7 @@ export default function Hero() {
                   className="text-xs uppercase"
                   style={{
                     fontFamily: 'var(--font-label)',
-                    color: 'var(--color-brown)',
-                    opacity: 0.7,
+                    color: 'var(--color-charcoal)',
                     letterSpacing: '0.1em'
                   }}
                 >
@@ -128,7 +130,7 @@ export default function Hero() {
                   className="text-3xl font-light mb-1"
                   style={{
                     fontFamily: 'var(--font-heading)',
-                    color: 'var(--color-primary)'
+                    color: 'var(--color-gold)'
                   }}
                 >
                   5000+
@@ -137,8 +139,7 @@ export default function Hero() {
                   className="text-xs uppercase"
                   style={{
                     fontFamily: 'var(--font-label)',
-                    color: 'var(--color-brown)',
-                    opacity: 0.7,
+                    color: 'var(--color-charcoal)',
                     letterSpacing: '0.1em'
                   }}
                 >
@@ -150,7 +151,7 @@ export default function Hero() {
                   className="text-3xl font-light mb-1"
                   style={{
                     fontFamily: 'var(--font-heading)',
-                    color: 'var(--color-primary)'
+                    color: 'var(--color-gold)'
                   }}
                 >
                   8
@@ -159,8 +160,7 @@ export default function Hero() {
                   className="text-xs uppercase"
                   style={{
                     fontFamily: 'var(--font-label)',
-                    color: 'var(--color-brown)',
-                    opacity: 0.7,
+                    color: 'var(--color-charcoal)',
                     letterSpacing: '0.1em'
                   }}
                 >
@@ -235,9 +235,9 @@ export default function Hero() {
 
             {/* Decorative Abstract Shape */}
             <div
-              className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full opacity-60 blur-2xl"
+              className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full opacity-50 blur-2xl"
               style={{
-                background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-mauve) 100%)',
+                background: 'linear-gradient(135deg, var(--color-terracotta) 0%, var(--color-mauve) 100%)',
               }}
             />
           </div>

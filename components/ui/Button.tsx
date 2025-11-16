@@ -50,21 +50,23 @@ export default function Button({
     if (variant === 'primary') {
       return {
         backgroundColor: 'var(--color-primary)',
+        color: '#ffffff',
         fontFamily: 'var(--font-label)',
         letterSpacing: '0.1em',
       };
     }
     if (variant === 'secondary') {
       return {
-        backgroundColor: 'var(--color-brown)',
+        backgroundColor: 'var(--color-charcoal)',
+        color: '#ffffff',
         fontFamily: 'var(--font-label)',
         letterSpacing: '0.1em',
       };
     }
     if (variant === 'outline') {
       return {
-        borderColor: 'var(--color-brown)',
-        color: 'var(--color-brown)',
+        borderColor: 'var(--color-primary)',
+        color: 'var(--color-primary)',
         fontFamily: 'var(--font-label)',
         letterSpacing: '0.1em',
         backgroundColor: 'transparent',
