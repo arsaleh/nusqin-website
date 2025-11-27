@@ -7,118 +7,71 @@ import Button from '@/components/ui/Button';
 
 const navigation = [
   { name: 'Home', href: '/' },
-  { name: 'Treatments', href: '/#treatments' },
-  { name: 'About', href: '/about' },
-  { name: 'Contact', href: '/contact' },
+  { name: 'About Us', href: '/about' },
+  { name: 'Services', href: '/#treatments' },
+  { name: 'Contact Us', href: '/contact' },
 ];
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm shadow-sm"
-      style={{ backgroundColor: 'rgba(246, 245, 241, 0.95)' }}
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between">
+        <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center">
-              <span
-                className="text-2xl font-light"
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  color: 'var(--color-brown)'
-                }}
-              >
-                NuSQIN
-              </span>
-              <span
-                className="ml-2 text-xs hidden sm:block"
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  color: 'var(--color-primary)',
-                  letterSpacing: '0.04em'
-                }}
-              >
-                Medical Aesthetics
-              </span>
-            </Link>
-          </div>
+          <Link href="/" className="flex items-center gap-2">
+            {/* Kanata-style logo icon */}
+            <div className="flex items-center">
+              <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+                <path d="M8 8L20 20L8 32" stroke="#14b8a6" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M20 8L32 20L20 32" stroke="#3b82f6" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <span className="text-xl font-semibold text-gray-900">
+              NUSQIN
+            </span>
+          </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-8">
+          <div className="hidden md:flex md:items-center md:gap-8">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-sm uppercase transition-colors"
-                style={{
-                  fontFamily: 'var(--font-label)',
-                  color: 'var(--color-brown)',
-                  letterSpacing: '0.1em',
-                  fontSize: '12px'
-                }}
+                className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
               >
                 {item.name}
               </Link>
             ))}
           </div>
 
-          {/* CTA Button & Phone */}
-          <div className="hidden md:flex md:items-center md:space-x-4">
-            <a
-              href={`tel:${COMPANY_INFO.phone}`}
-              className="text-sm transition-colors"
-              style={{
-                fontFamily: 'var(--font-body)',
-                color: 'var(--color-brown)',
-                opacity: 0.8
-              }}
-            >
-              {COMPANY_INFO.phoneDisplay}
-            </a>
+          {/* CTA Button */}
+          <div className="hidden md:flex md:items-center md:gap-4">
+            <button className="p-2 text-gray-500 hover:text-gray-700">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
             <Button href="/contact" size="sm">
-              Book Now
+              Book Appointment
             </Button>
           </div>
 
           {/* Mobile menu button */}
           <button
             type="button"
-            className="md:hidden inline-flex items-center justify-center rounded-md p-2 focus:outline-none"
-            style={{ color: 'var(--color-brown)' }}
+            className="md:hidden p-2 text-gray-600"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            <span className="sr-only">Open main menu</span>
+            <span className="sr-only">Open menu</span>
             {mobileMenuOpen ? (
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             ) : (
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                />
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
               </svg>
             )}
           </button>
@@ -126,37 +79,21 @@ export default function Header() {
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-4" style={{ borderTop: '1px solid var(--color-sage)' }}>
+          <div className="md:hidden py-4 border-t border-gray-100">
             <div className="space-y-1">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="block px-3 py-2 text-sm uppercase transition-colors rounded-md"
-                  style={{
-                    fontFamily: 'var(--font-label)',
-                    color: 'var(--color-brown)',
-                    letterSpacing: '0.1em'
-                  }}
+                  className="block px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
-              <div className="px-3 py-2">
-                <a
-                  href={`tel:${COMPANY_INFO.phone}`}
-                  className="block text-sm mb-3"
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    color: 'var(--color-brown)',
-                    opacity: 0.8
-                  }}
-                >
-                  {COMPANY_INFO.phoneDisplay}
-                </a>
+              <div className="px-3 pt-4">
                 <Button href="/contact" size="sm" className="w-full">
-                  Book Now
+                  Book Appointment
                 </Button>
               </div>
             </div>

@@ -60,6 +60,16 @@ export class EspoCRMClient {
 
       if (!response.ok) {
         const error = await response.json().catch(() => ({ message: response.statusText }));
+
+        // Log detailed error for debugging
+        if (process.env.NODE_ENV === 'development') {
+          console.error('EspoCRM API Error:', {
+            endpoint,
+            status: response.status,
+            error
+          });
+        }
+
         throw new Error(`EspoCRM API Error (${response.status}): ${error.message || response.statusText}`);
       }
 
@@ -81,35 +91,35 @@ export class EspoCRMClient {
    * Create a new patient
    */
   async createPatient(data: CreatePatientRequest): Promise<Patient> {
-    return this.request<Patient>('Patient', 'POST', data);
+    return this.request<Patient>('CPatient', 'POST', data);
   }
 
   /**
    * Get patient by ID
    */
   async getPatient(id: string): Promise<Patient> {
-    return this.request<Patient>(`Patient/${id}`);
+    return this.request<Patient>(`CPatient/${id}`);
   }
 
   /**
    * Get all patients (with optional filtering)
    */
   async getPatients(params?: EspoCRMQueryParams): Promise<EspoCRMListResponse<Patient>> {
-    return this.request<EspoCRMListResponse<Patient>>('Patient', 'GET', undefined, params);
+    return this.request<EspoCRMListResponse<Patient>>('CPatient', 'GET', undefined, params);
   }
 
   /**
    * Update patient
    */
   async updatePatient(id: string, data: Partial<Patient>): Promise<Patient> {
-    return this.request<Patient>(`Patient/${id}`, 'PUT', data);
+    return this.request<Patient>(`CPatient/${id}`, 'PUT', data);
   }
 
   /**
    * Delete patient (soft delete)
    */
   async deletePatient(id: string): Promise<{ success: boolean }> {
-    return this.request(`Patient/${id}`, 'DELETE');
+    return this.request(`CPatient/${id}`, 'DELETE');
   }
 
   /**
@@ -137,21 +147,21 @@ export class EspoCRMClient {
         : undefined,
     };
 
-    return this.request<Appointment>('Appointment', 'POST', appointmentData);
+    return this.request<Appointment>('CAppointment', 'POST', appointmentData);
   }
 
   /**
    * Get appointment by ID
    */
   async getAppointment(id: string): Promise<Appointment> {
-    return this.request<Appointment>(`Appointment/${id}`);
+    return this.request<Appointment>(`CAppointment/${id}`);
   }
 
   /**
    * Get all appointments (with optional filtering)
    */
   async getAppointments(params?: EspoCRMQueryParams): Promise<EspoCRMListResponse<Appointment>> {
-    return this.request<EspoCRMListResponse<Appointment>>('Appointment', 'GET', undefined, params);
+    return this.request<EspoCRMListResponse<Appointment>>('CAppointment', 'GET', undefined, params);
   }
 
   /**
@@ -187,7 +197,7 @@ export class EspoCRMClient {
    * Update appointment
    */
   async updateAppointment(id: string, data: Partial<Appointment>): Promise<Appointment> {
-    return this.request<Appointment>(`Appointment/${id}`, 'PUT', data);
+    return this.request<Appointment>(`CAppointment/${id}`, 'PUT', data);
   }
 
   /**
@@ -210,14 +220,14 @@ export class EspoCRMClient {
    * Create a new treatment session
    */
   async createTreatmentSession(data: CreateTreatmentSessionRequest): Promise<TreatmentSession> {
-    return this.request<TreatmentSession>('TreatmentSession', 'POST', data);
+    return this.request<TreatmentSession>('CTreatmentSession', 'POST', data);
   }
 
   /**
    * Get treatment session by ID
    */
   async getTreatmentSession(id: string): Promise<TreatmentSession> {
-    return this.request<TreatmentSession>(`TreatmentSession/${id}`);
+    return this.request<TreatmentSession>(`CTreatmentSession/${id}`);
   }
 
   /**
@@ -225,7 +235,7 @@ export class EspoCRMClient {
    */
   async getPatientTreatmentSessions(patientId: string): Promise<TreatmentSession[]> {
     const response = await this.request<EspoCRMListResponse<TreatmentSession>>(
-      'TreatmentSession',
+      'CTreatmentSession',
       'GET',
       undefined,
       {
@@ -241,7 +251,7 @@ export class EspoCRMClient {
    * Update treatment session
    */
   async updateTreatmentSession(id: string, data: Partial<TreatmentSession>): Promise<TreatmentSession> {
-    return this.request<TreatmentSession>(`TreatmentSession/${id}`, 'PUT', data);
+    return this.request<TreatmentSession>(`CTreatmentSession/${id}`, 'PUT', data);
   }
 
   // ==================== Utility Methods ====================

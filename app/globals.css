@@ -1,195 +1,159 @@
 @import "tailwindcss";
 
 :root {
-  /* 2024 MedSpa Premium Color Palette */
-  --color-cream: #f8f7f4;           /* Softer, warmer cream */
-  --color-sage: #d8e3db;            /* Refined sage with hint of mint */
-  --color-mauve: #d4c1c3;           /* Softer mauve, less pink */
-  --color-gold: #d4af37;            /* True luxury gold */
-  --color-terracotta: #c97064;      /* Warm accent for contemporary feel */
-  --color-charcoal: #5a504c;        /* Warmer charcoal instead of brown */
+  /* Kanata Clinics Color Palette - Light & Clean */
   --color-white: #ffffff;
+  --color-bg: #f8f9fa;              /* Light cream background */
+  --color-bg-card: #ffffff;
+  --color-blue: #3b82f6;            /* Primary blue for buttons/links */
+  --color-blue-dark: #2563eb;       /* Hover state */
+  --color-blue-light: #dbeafe;      /* Light blue backgrounds */
+  --color-teal: #14b8a6;            /* Teal accent (logo) */
+  --color-text: #1f2937;            /* Dark text */
+  --color-text-secondary: #6b7280;  /* Gray text */
+  --color-text-muted: #9ca3af;      /* Muted text */
+  --color-border: #e5e7eb;          /* Light borders */
+  --color-border-light: #f3f4f6;
 
-  /* Primary Pink Accent - for CTAs only */
-  --color-primary: #fb2056;
-  --color-primary-dark: #da1c4b;
-
-  /* Legacy brown support */
-  --color-brown: #5a504c;           /* Updated to match charcoal */
+  /* Legacy support */
+  --color-primary: #3b82f6;
+  --color-primary-dark: #2563eb;
+  --color-cream: #f8f9fa;
+  --color-brown: #1f2937;
+  --color-charcoal: #1f2937;
+  --color-navy: #1e3a5f;
+  --color-gray-900: #1f2937;
+  --color-gray-700: #374151;
+  --color-gray-500: #6b7280;
+  --color-gray-100: #f3f4f6;
+  --color-off-white: #f8f9fa;
 
   /* Font Variables */
-  --font-heading: 'Sora', var(--font-montserrat), sans-serif;
-  --font-body: 'Syne', var(--font-noto-sans), sans-serif;
-  --font-label: 'Tenor Sans', sans-serif;
+  --font-heading: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-label: 'Inter', sans-serif;
 }
 
 @theme inline {
-  /* 2024 Premium MedSpa Color Palette */
-  --color-cream: #f8f7f4;
-  --color-sage: #d8e3db;
-  --color-mauve: #d4c1c3;
-  --color-gold: #d4af37;
-  --color-terracotta: #c97064;
-  --color-charcoal: #5a504c;
   --color-white: #ffffff;
+  --color-bg: #f8f9fa;
+  --color-blue: #3b82f6;
+  --color-blue-dark: #2563eb;
+  --color-teal: #14b8a6;
+  --color-text: #1f2937;
+  --color-text-secondary: #6b7280;
+  --color-border: #e5e7eb;
+  --color-primary: #3b82f6;
+  --color-primary-dark: #2563eb;
+  --color-cream: #f8f9fa;
+  --color-brown: #1f2937;
+  --color-charcoal: #1f2937;
+  --color-navy: #1e3a5f;
+  --color-gray-900: #1f2937;
+  --color-gray-700: #374151;
+  --color-gray-500: #6b7280;
+  --color-off-white: #f8f9fa;
 
-  /* Primary Pink Accent */
-  --color-primary: #fb2056;
-  --color-primary-dark: #da1c4b;
-
-  /* Legacy support */
-  --color-brown: #5a504c;
-
-  /* Typography */
-  --font-heading: 'Sora', sans-serif;
-  --font-body: 'Syne', sans-serif;
-  --font-label: 'Tenor Sans', sans-serif;
+  --font-heading: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-label: 'Inter', sans-serif;
 }
 
 body {
-  background: var(--color-cream);
-  color: var(--color-charcoal);
-  font-family: var(--font-body), Arial, Helvetica, sans-serif;
-  font-size: 15px;
-  letter-spacing: 0.02em;
-  line-height: 1.7;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body), -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  font-weight: 300;
-  color: var(--color-charcoal);
+  font-weight: 600;
+  color: var(--color-text);
   line-height: 1.3;
 }
 
-h1 {
-  font-size: 60px;
-  letter-spacing: -0.02em;
-}
-
-h2 {
-  font-size: 38px;
-  letter-spacing: -0.01em;
-}
-
-h3 {
-  font-size: 28px;
-}
+h1 { font-size: 48px; }
+h2 { font-size: 36px; }
+h3 { font-size: 24px; }
+h4 { font-size: 20px; }
 
 a {
-  color: var(--color-accent);
+  color: inherit;
   text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-a:hover {
-  text-decoration: underline;
+  transition: color 0.2s ease;
 }
 
 /* Responsive Typography */
-@media (max-width: 1199px) {
-  h1 {
-    font-size: 48px;
-  }
-
-  h2 {
-    font-size: 32px;
-  }
-
-  h3 {
-    font-size: 24px;
-  }
+@media (max-width: 768px) {
+  h1 { font-size: 32px; }
+  h2 { font-size: 28px; }
+  h3 { font-size: 20px; }
+  body { font-size: 15px; }
 }
 
-@media (max-width: 809px) {
-  h1 {
-    font-size: 38px;
-  }
-
-  h2 {
-    font-size: 28px;
-  }
-
-  h3 {
-    font-size: 22px;
-  }
-
-  body {
-    font-size: 14px;
-  }
+/* Card Style - Kanata */
+.card {
+  background: var(--color-white);
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
 }
 
-/* HubSpot Form Styling - Luxury MedSpa Aesthetic */
+.card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* HubSpot Form */
 .hubspot-form-wrapper {
-  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
   background: var(--color-white);
   padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
 }
 
 .hubspot-form-wrapper .hs-form-field label {
-  font-family: var(--font-label), Arial, Helvetica, sans-serif;
-  font-weight: 400;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--color-brown);
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--color-text);
   margin-bottom: 0.5rem;
   display: block;
 }
 
 .hubspot-form-wrapper .hs-input {
   width: 100%;
-  padding: 12px;
-  border: 1px solid var(--color-sage);
+  padding: 12px 16px;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  font-family: var(--font-body), Arial, Helvetica, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   background: var(--color-white);
-  color: var(--color-brown);
-  transition: all 0.3s ease;
+  color: var(--color-text);
+  transition: border-color 0.2s ease;
 }
 
 .hubspot-form-wrapper .hs-input:focus {
   outline: none;
-  border-color: var(--color-gold);
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .hubspot-form-wrapper .hs-button {
-  background-color: var(--color-primary);
+  background-color: var(--color-blue);
   color: white;
-  padding: 1rem 2.5rem;
-  border-radius: 9999px;
-  font-family: var(--font-label), Arial, Helvetica, sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-weight: 500;
+  font-size: 16px;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease;
   width: 100%;
 }
 
 .hubspot-form-wrapper .hs-button:hover {
-  background-color: var(--color-primary-dark);
-  box-shadow: 0 4px 12px rgba(251, 32, 86, 0.3);
-  transform: scale(1.02);
-}
-
-.hubspot-form-wrapper .hs-error-msgs {
-  color: #dc2626;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-}
-
-.hubspot-form-wrapper .hs-form-required {
-  color: var(--color-primary);
-}
-
-/* Smooth transitions */
-* {
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: var(--color-blue-dark);
 }

@@ -1,27 +1,21 @@
 import type { Metadata } from "next";
-import { Sora, Syne, Tenor_Sans } from "next/font/google";
+import { Work_Sans, Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { HUBSPOT_CONFIG } from '@/lib/constants';
 
-const sora = Sora({
+const workSans = Work_Sans({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["300", "400", "600"],
+  weight: ["400", "500", "600", "700", "900"],
 });
 
-const syne = Syne({
+const inter = Inter({
   variable: "--font-body",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
-});
-
-const tenorSans = Tenor_Sans({
-  variable: "--font-label",
-  subsets: ["latin"],
-  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -37,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${sora.variable} ${syne.variable} ${tenorSans.variable} antialiased`}
+        className={`${workSans.variable} ${inter.variable} antialiased`}
       >
         {/* HubSpot Tracking Code */}
         <Script
@@ -47,7 +41,7 @@ export default function RootLayout({
         />
 
         <Header />
-        <main className="pt-20">{children}</main>
+        <main>{children}</main>
         <Footer />
       </body>
     </html>

@@ -23,31 +23,40 @@ export async function GET(req: NextRequest) {
     // Get current user info
     const user = await client.getCurrentUser();
 
-    // Get patient count
-    const patients = await client.getPatients({ maxSize: 1 });
+    // Try to get custom entities (will return empty if not created yet)
+    let patientsData = { total: 0, list: [] };
+    let appointmentsData: any[] = [];
+    let customEntitiesCreated = false;
 
-    // Get upcoming appointments
-    const appointments = await client.getUpcomingAppointments(5);
+    try {
+      patientsData = await client.getPatients({ maxSize: 1 });
+      appointmentsData = await client.getUpcomingAppointments(5);
+      customEntitiesCreated = true;
+    } catch (entityError: any) {
+      // Custom entities don't exist yet - that's okay
+      console.log('Custom entities not yet created:', entityError.message);
+    }
 
     return NextResponse.json({
       success: true,
       connection: 'OK',
+      apiKeyValid: true,
       user: {
         id: user.id,
         name: user.name,
         userName: user.userName,
+        type: user.type,
       },
-      stats: {
-        totalPatients: patients.total,
-        upcomingAppointments: appointments.length,
+      customEntities: {
+        created: customEntitiesCreated,
+        message: customEntitiesCreated
+          ? 'Patient and Appointment entities are configured'
+          : 'Custom entities not yet created - follow ESPOCRM_SETUP.md to create them',
       },
-      upcomingAppointments: appointments.map((apt) => ({
-        id: apt.id,
-        patient: apt.patientName,
-        treatment: apt.treatmentType,
-        date: apt.dateStart,
-        status: apt.status,
-      })),
+      stats: customEntitiesCreated ? {
+        totalPatients: patientsData.total,
+        upcomingAppointments: appointmentsData.length,
+      } : null,
     });
   } catch (error: any) {
     console.error('EspoCRM test endpoint error:', error);
