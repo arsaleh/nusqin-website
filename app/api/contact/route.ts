@@ -82,7 +82,7 @@ Message: ${message || 'No message provided'}
     let patient;
     let action: 'created' | 'updated';
 
-    if (existingPatient) {
+    if (existingPatient && existingPatient.id) {
       // Update existing patient
       patient = await client.updatePatient(existingPatient.id, patientData);
       action = 'updated';
