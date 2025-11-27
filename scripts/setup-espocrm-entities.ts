@@ -80,8 +80,6 @@ async function createField(entityName: string, field: EntityField) {
   try {
     await apiRequest('EntityManager/action/createField', 'POST', {
       entity: entityName,
-      name: field.name,
-      type: field.type,
       ...field,
     });
 
