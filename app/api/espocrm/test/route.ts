@@ -24,13 +24,15 @@ export async function GET(req: NextRequest) {
     const user = await client.getCurrentUser();
 
     // Try to get custom entities (will return empty if not created yet)
-    let patientsData = { total: 0, list: [] };
-    let appointmentsData: any[] = [];
+    let patientsTotal = 0;
+    let appointmentsCount = 0;
     let customEntitiesCreated = false;
 
     try {
-      patientsData = await client.getPatients({ maxSize: 1 });
-      appointmentsData = await client.getUpcomingAppointments(5);
+      const patientsData = await client.getPatients({ maxSize: 1 });
+      const appointmentsData = await client.getUpcomingAppointments(5);
+      patientsTotal = patientsData.total;
+      appointmentsCount = appointmentsData.length;
       customEntitiesCreated = true;
     } catch (entityError: any) {
       // Custom entities don't exist yet - that's okay
@@ -54,8 +56,8 @@ export async function GET(req: NextRequest) {
           : 'Custom entities not yet created - follow ESPOCRM_SETUP.md to create them',
       },
       stats: customEntitiesCreated ? {
-        totalPatients: patientsData.total,
-        upcomingAppointments: appointmentsData.length,
+        totalPatients: patientsTotal,
+        upcomingAppointments: appointmentsCount,
       } : null,
     });
   } catch (error: any) {
