@@ -41,7 +41,14 @@ export class EspoCRMClient {
       if (params.maxSize) url.searchParams.set('maxSize', params.maxSize.toString());
       if (params.orderBy) url.searchParams.set('orderBy', params.orderBy);
       if (params.order) url.searchParams.set('order', params.order);
-      if (params.where) url.searchParams.set('where', JSON.stringify(params.where));
+      // EspoCRM expects where as array-style params: where[0][type]=equals&where[0][attribute]=email
+      if (params.where) {
+        params.where.forEach((condition, index) => {
+          Object.entries(condition).forEach(([key, value]) => {
+            url.searchParams.set(`where[${index}][${key}]`, String(value));
+          });
+        });
+      }
     }
 
     const headers: HeadersInit = {

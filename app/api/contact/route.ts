@@ -33,49 +33,34 @@ export async function POST(req: NextRequest) {
     if (!existingPatient) {
       patientData.firstName = firstName;
       patientData.lastName = lastName;
-      patientData.patientStatus = 'Active';
 
       // Add email if provided
       if (email) {
         patientData.emailAddress = email;
-        patientData.emailAddressData = [
-          {
-            emailAddress: email,
-            primary: true,
-            optOut: false,
-            invalid: false
-          }
-        ];
       }
     }
 
-    // Add phone if provided (only if it's a non-empty string)
-    // EspoCRM has strict phone validation, so we skip it if empty or invalid
+    // Add phone if provided (format to international E.164)
     if (phone && phone.trim().length > 0) {
-      patientData.phoneNumber = phone.trim();
-      patientData.phoneNumberData = [
-        {
-          phoneNumber: phone.trim(),
-          primary: true,
-          type: 'Mobile',
-          optOut: false,
-          invalid: false
-        }
-      ];
+      let formattedPhone = phone.trim().replace(/\D/g, ''); // Remove non-digits
+      // Add country code if not present (assume +1 for North America)
+      if (!formattedPhone.startsWith('1') && formattedPhone.length === 10) {
+        formattedPhone = '1' + formattedPhone;
+      }
+      if (!formattedPhone.startsWith('+')) {
+        formattedPhone = '+' + formattedPhone;
+      }
+      patientData.phoneNumber = formattedPhone;
     }
 
-    // Store message and treatment interest in medical history
-    // For existing patients, append to existing history instead of overwriting
+    // Store message and treatment interest in description field
     if (message || treatmentInterest) {
-      const newEntry = `
-[${new Date().toISOString().split('T')[0]}] Treatment Interest: ${treatmentInterest || 'Not specified'}
-Message: ${message || 'No message provided'}
-      `.trim();
+      const newEntry = `[${new Date().toISOString().split('T')[0]}] Treatment Interest: ${treatmentInterest || 'Not specified'}\nMessage: ${message || 'No message provided'}`;
 
-      if (existingPatient && existingPatient.medicalHistory) {
-        patientData.medicalHistory = `${existingPatient.medicalHistory}\n\n${newEntry}`;
+      if (existingPatient && existingPatient.description) {
+        patientData.description = `${existingPatient.description}\n\n${newEntry}`;
       } else {
-        patientData.medicalHistory = newEntry;
+        patientData.description = newEntry;
       }
     }
 
