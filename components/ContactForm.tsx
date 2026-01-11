@@ -74,17 +74,32 @@ export default function ContactForm() {
     });
   };
 
+  // Show only success message after submission
+  if (status === 'success') {
+    return (
+      <div className="max-w-2xl mx-auto p-6">
+        <div className="text-center py-12">
+          <div className="mb-4 text-green-600">
+            <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h2 className="text-3xl font-light mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
+            Thank You!
+          </h2>
+          <p className="text-lg text-gray-600">
+            We've received your inquiry and will contact you soon.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-2xl mx-auto p-6">
       <h2 className="text-3xl font-light mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
         Book a Consultation
       </h2>
-
-      {status === 'success' && (
-        <div className="mb-6 p-4 bg-green-100 text-green-800 rounded">
-          Thank you! We've received your inquiry and will contact you soon.
-        </div>
-      )}
 
       {status === 'error' && (
         <div className="mb-6 p-4 bg-red-100 text-red-800 rounded">
