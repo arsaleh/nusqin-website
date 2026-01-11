@@ -1,8 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Note: 'standalone' removed for Cloudflare Pages compatibility
-  // For Fly.io/Docker deployment, add back: output: 'standalone'
+  // Static export for Cloudflare Pages
+  output: 'export',
+
+  // Trailing slashes for static hosting compatibility
+  trailingSlash: true,
+
   images: {
     remotePatterns: [
       {
@@ -16,8 +20,8 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-    // Cloudflare Pages: use unoptimized images or configure loader
-    unoptimized: process.env.CLOUDFLARE_PAGES === 'true',
+    // Static export requires unoptimized images
+    unoptimized: true,
   },
 };
 
