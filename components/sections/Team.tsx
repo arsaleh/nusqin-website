@@ -1,22 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-
-const teamMembers = [
-  {
-    name: 'Dr. Sara Kahrobaei',
-    title: 'Family Physician / Medical Aesthetics Practitioner',
-    image: 'https://nusqin.com/wp-content/uploads/2024/04/Dr.-Sara-Kahrobaei.webp',
-    credentials: 'MD, MRCSE',
-    slug: 'dr-sara-kahrobaei',
-  },
-  {
-    name: 'Dr. Ali Sanei Moghaddam',
-    title: 'Medical Doctor',
-    image: 'https://nusqin.com/wp-content/uploads/2024/04/Dr.-Ali-Sanei-Moghaddam.webp',
-    credentials: 'MD',
-    slug: 'dr-ali-sanei-moghaddam',
-  },
-];
+import { TEAM_MEMBERS } from '@/lib/constants';
 
 export default function Team() {
   return (
@@ -34,7 +18,7 @@ export default function Team() {
 
         {/* Team Grid - Kanata style simple cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {teamMembers.map((member, index) => (
+          {TEAM_MEMBERS.map((member, index) => (
             <div
               key={index}
               className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300"

@@ -1,53 +1,66 @@
+'use client';
+
 import Image from 'next/image';
 import { COMPANY_INFO } from '@/lib/constants';
 import Button from '@/components/ui/Button';
+import CountUp from '@/components/ui/CountUp';
 
 export default function About() {
   return (
     <section className="py-20 lg:py-28" style={{ backgroundColor: 'var(--color-white)' }}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left Column - Image */}
+          {/* Left Column - Images */}
           <div className="relative">
-            <div className="relative h-96 lg:h-[550px] rounded-2xl overflow-hidden shadow-2xl">
-              <Image
-                src="https://nusqin.com/wp-content/uploads/2024/04/WhatsApp-Image-2024-04-16-at-4.02.15-AM.jpg"
-                alt="NuSQIN Medical Aesthetics Clinic"
-                fill
-                className="object-cover"
-              />
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-navy/20 to-transparent" />
-            </div>
-
-            {/* Floating Stats Card */}
-            <div
-              className="absolute -bottom-6 -right-6 lg:-right-12 p-6 rounded-2xl shadow-xl"
-              style={{ backgroundColor: 'var(--color-navy)' }}
-            >
-              <div className="grid grid-cols-3 gap-6 text-center">
-                <div>
-                  <div className="text-3xl font-bold text-white" style={{ fontFamily: 'var(--font-heading)' }}>
-                    10+
+            <div className="grid grid-cols-2 gap-4">
+              {/* Main Image - Clinic Interior */}
+              <div className="relative h-72 lg:h-[400px] rounded-2xl overflow-hidden shadow-xl col-span-2">
+                <Image
+                  src="/about/nusqin-photo.avif"
+                  alt="NuSQIN Medical Aesthetics Clinic Interior"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/20 to-transparent" />
+              </div>
+              {/* Secondary Image - Building Exterior */}
+              <div className="relative h-48 lg:h-56 rounded-2xl overflow-hidden shadow-lg col-span-2 sm:col-span-1">
+                <Image
+                  src="/about/kanata-outside.avif"
+                  alt="NuSQIN Clinic Building"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              {/* Stats Card */}
+              <div
+                className="relative h-48 lg:h-56 rounded-2xl p-6 flex items-center justify-center col-span-2 sm:col-span-1"
+                style={{ backgroundColor: 'var(--color-navy)' }}
+              >
+                <div className="grid grid-cols-3 gap-4 text-center w-full">
+                  <div>
+                    <div className="text-2xl lg:text-3xl font-bold text-white" style={{ fontFamily: 'var(--font-heading)' }}>
+                      <CountUp end={10} suffix="+" duration={2000} />
+                    </div>
+                    <div className="text-xs text-white/60" style={{ fontFamily: 'var(--font-body)' }}>
+                      Years
+                    </div>
                   </div>
-                  <div className="text-xs text-white/60" style={{ fontFamily: 'var(--font-body)' }}>
-                    Years
+                  <div>
+                    <div className="text-2xl lg:text-3xl font-bold text-white" style={{ fontFamily: 'var(--font-heading)' }}>
+                      <CountUp end={7} duration={1500} />
+                    </div>
+                    <div className="text-xs text-white/60" style={{ fontFamily: 'var(--font-body)' }}>
+                      Treatments
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-white" style={{ fontFamily: 'var(--font-heading)' }}>
-                    8
-                  </div>
-                  <div className="text-xs text-white/60" style={{ fontFamily: 'var(--font-body)' }}>
-                    Treatments
-                  </div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-white" style={{ fontFamily: 'var(--font-heading)' }}>
-                    5K+
-                  </div>
-                  <div className="text-xs text-white/60" style={{ fontFamily: 'var(--font-body)' }}>
-                    Clients
+                  <div>
+                    <div className="text-2xl lg:text-3xl font-bold text-white" style={{ fontFamily: 'var(--font-heading)' }}>
+                      <CountUp end={5} suffix="K+" duration={2000} />
+                    </div>
+                    <div className="text-xs text-white/60" style={{ fontFamily: 'var(--font-body)' }}>
+                      Clients
+                    </div>
                   </div>
                 </div>
               </div>

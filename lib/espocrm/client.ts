@@ -5,6 +5,8 @@
 
 import type {
   Patient,
+  Contact,
+  Case,
   Appointment,
   TreatmentSession,
   CreatePatientRequest,
@@ -92,7 +94,88 @@ export class EspoCRMClient {
     }
   }
 
-  // ==================== Patient Operations ====================
+  // ==================== Contact Operations (Built-in Entity) ====================
+
+  /**
+   * Create a new contact
+   */
+  async createContact(data: Partial<Contact>): Promise<Contact> {
+    return this.request<Contact>('Contact', 'POST', data);
+  }
+
+  /**
+   * Get contact by ID
+   */
+  async getContact(id: string): Promise<Contact> {
+    return this.request<Contact>(`Contact/${id}`);
+  }
+
+  /**
+   * Get all contacts (with optional filtering)
+   */
+  async getContacts(params?: EspoCRMQueryParams): Promise<EspoCRMListResponse<Contact>> {
+    return this.request<EspoCRMListResponse<Contact>>('Contact', 'GET', undefined, params);
+  }
+
+  /**
+   * Update contact
+   */
+  async updateContact(id: string, data: Partial<Contact>): Promise<Contact> {
+    return this.request<Contact>(`Contact/${id}`, 'PUT', data);
+  }
+
+  /**
+   * Find contact by email
+   */
+  async findContactByEmail(email: string): Promise<Contact | null> {
+    const response = await this.getContacts({
+      where: [{ type: 'equals', attribute: 'emailAddress', value: email }],
+      maxSize: 1,
+    });
+    return response.list[0] || null;
+  }
+
+  // ==================== Case Operations (Built-in Entity) ====================
+
+  /**
+   * Create a new case (inquiry/ticket)
+   */
+  async createCase(data: Partial<Case>): Promise<Case> {
+    return this.request<Case>('Case', 'POST', data);
+  }
+
+  /**
+   * Get case by ID
+   */
+  async getCase(id: string): Promise<Case> {
+    return this.request<Case>(`Case/${id}`);
+  }
+
+  /**
+   * Get all cases for a contact
+   */
+  async getContactCases(contactId: string): Promise<Case[]> {
+    const response = await this.request<EspoCRMListResponse<Case>>(
+      'Case',
+      'GET',
+      undefined,
+      {
+        where: [{ type: 'equals', attribute: 'contactId', value: contactId }],
+        orderBy: 'createdAt',
+        order: 'desc',
+      }
+    );
+    return response.list;
+  }
+
+  /**
+   * Update case
+   */
+  async updateCase(id: string, data: Partial<Case>): Promise<Case> {
+    return this.request<Case>(`Case/${id}`, 'PUT', data);
+  }
+
+  // ==================== Patient Operations (Custom Entity) ====================
 
   /**
    * Create a new patient

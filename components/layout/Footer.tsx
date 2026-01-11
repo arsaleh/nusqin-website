@@ -96,6 +96,16 @@ export default function Footer() {
                   Book Appointment
                 </Link>
               </li>
+              <li>
+                <a
+                  href="https://www.beautifi.com/doctors/nusqin-medical/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-gray-600 hover:text-blue-500 transition-colors"
+                >
+                  Financing
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -157,8 +167,27 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Financing Partner */}
+        <div className="mt-12 pt-8 border-t border-gray-100">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+            <span className="text-sm text-gray-500">Financing available through</span>
+            <a
+              href="https://www.beautifi.com/doctors/nusqin-medical/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:opacity-80 transition-opacity"
+            >
+              <img
+                src="/partners/beautifi-horizontal.png"
+                alt="Beautifi - Cosmetic Financing"
+                className="h-8"
+              />
+            </a>
+          </div>
+        </div>
+
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-gray-100">
+        <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-gray-100">
           <p className="text-sm text-gray-400">
             © {currentYear} {COMPANY_INFO.name}. All rights reserved.
           </p>

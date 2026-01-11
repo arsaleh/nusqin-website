@@ -7,13 +7,13 @@ import Button from '@/components/ui/Button';
 // Image mapping for treatments
 const treatmentImages: Record<string, string> = {
   'botox': 'https://nusqin.com/wp-content/uploads/2024/04/WhatsApp-Image-2024-04-18-at-9.41.25-PM.jpeg',
-  'dermal-fillers': 'https://nusqin.com/wp-content/uploads/2024/04/WhatsApp-Image-2024-04-16-at-4.02.55-AM-1.jpeg',
+  'dermal-fillers': 'https://images.unsplash.com/photo-1598300188904-6287d52746ad?w=2000&auto=format&fit=crop&q=80',
   'microneedling': 'https://nusqin.com/wp-content/uploads/2024/04/woman-holding-device-microneedle-mesotherapy-doing-skin-resurfacing-procedure-1471428695_6847x4565-scaled.jpeg',
   'platelet-rich-plasma': 'https://nusqin.com/wp-content/uploads/2024/04/prp-therapy-process-for-hair-loss-1364189789_8192x5464.jpeg',
   'laser-treatment': 'https://nusqin.com/wp-content/uploads/2024/04/Laser.jpg',
   'minor-surgeries': 'https://nusqin.com/wp-content/uploads/2024/04/person-pointing-to-lipoma-1607281866_6000x4000-scaled.jpeg',
   'tempsure': 'https://nusqin.com/wp-content/uploads/2024/04/Laser_2.jpg', // RF skin tightening device
-  'chemical-peels': 'https://nusqin.com/wp-content/uploads/2024/04/WhatsApp-Image-2024-04-16-at-4.14.47-AM-1-e1713472748483-300x205.jpeg', // Chemical peel application
+  'chemical-peels': '/treatments/chemical-peels.jpeg', // Chemical peel application
 };
 
 interface TreatmentPageProps {
@@ -147,7 +147,7 @@ export default async function TreatmentPage({ params }: TreatmentPageProps) {
                 {treatment.benefits.map((benefit, index) => (
                   <li
                     key={index}
-                    className="flex items-start"
+                    className="flex flex-row items-start"
                     style={{
                       fontFamily: 'var(--font-body)',
                       color: 'var(--color-brown)',
@@ -156,12 +156,12 @@ export default async function TreatmentPage({ params }: TreatmentPageProps) {
                     }}
                   >
                     <span
-                      className="mr-3 mt-1 text-xl flex-shrink-0"
+                      className="mr-3 mt-0.5 text-xl flex-shrink-0"
                       style={{ color: 'var(--color-gold)' }}
                     >
                       ✓
                     </span>
-                    <span>{benefit}</span>
+                    <span className="flex-1">{benefit}</span>
                   </li>
                 ))}
               </ul>
@@ -189,7 +189,7 @@ export default async function TreatmentPage({ params }: TreatmentPageProps) {
                   {treatment.conditionsTreated.map((condition, index) => (
                     <li
                       key={index}
-                      className="flex items-start"
+                      className="flex flex-row items-start"
                       style={{
                         fontFamily: 'var(--font-body)',
                         color: 'var(--color-brown)',
@@ -198,12 +198,53 @@ export default async function TreatmentPage({ params }: TreatmentPageProps) {
                       }}
                     >
                       <span
-                        className="mr-3 mt-1 flex-shrink-0"
+                        className="mr-3 mt-0.5 flex-shrink-0"
                         style={{ color: 'var(--color-gold)' }}
                       >
                         •
                       </span>
-                      <span>{condition}</span>
+                      <span className="flex-1">{condition}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {/* Advanced Options */}
+          {treatment.enhancements && treatment.enhancements.length > 0 && (
+            <div className="mb-16">
+              <h2
+                className="text-3xl font-light mb-6"
+                style={{
+                  fontFamily: 'var(--font-heading)',
+                  color: 'var(--color-brown)',
+                  letterSpacing: '-0.01em'
+                }}
+              >
+                Advanced Options
+              </h2>
+              <div
+                className="p-8 rounded-lg bg-gradient-to-br from-blue-50 to-teal-50 border border-blue-100"
+              >
+                <ul className="space-y-4">
+                  {treatment.enhancements.map((enhancement, index) => (
+                    <li
+                      key={index}
+                      className="flex flex-row items-start"
+                      style={{
+                        fontFamily: 'var(--font-body)',
+                        color: 'var(--color-brown)',
+                        opacity: 0.85,
+                        letterSpacing: '0.04em'
+                      }}
+                    >
+                      <span
+                        className="mr-3 mt-0.5 flex-shrink-0 text-teal-500"
+                      >
+                        ✦
+                      </span>
+                      <span className="flex-1">{enhancement}</span>
                     </li>
                   ))}
                 </ul>
@@ -255,6 +296,110 @@ export default async function TreatmentPage({ params }: TreatmentPageProps) {
                     </li>
                   ))}
                 </ol>
+              </div>
+            </div>
+          )}
+
+          {/* Recovery Timeline */}
+          {treatment.recovery && treatment.recovery.length > 0 && (
+            <div className="mb-16">
+              <h2
+                className="text-3xl font-light mb-6"
+                style={{
+                  fontFamily: 'var(--font-heading)',
+                  color: 'var(--color-brown)',
+                  letterSpacing: '-0.01em'
+                }}
+              >
+                Recovery Timeline
+              </h2>
+              <div
+                className="p-8 rounded-lg bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-100"
+              >
+                <ul className="space-y-4">
+                  {treatment.recovery.map((phase, index) => (
+                    <li
+                      key={index}
+                      className="flex flex-row items-start"
+                      style={{
+                        fontFamily: 'var(--font-body)',
+                        color: 'var(--color-brown)',
+                        opacity: 0.85,
+                        letterSpacing: '0.04em'
+                      }}
+                    >
+                      <span
+                        className="mr-3 mt-0.5 flex-shrink-0 text-amber-500"
+                      >
+                        ◆
+                      </span>
+                      <span className="flex-1">{phase}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {/* Aftercare */}
+          {treatment.aftercare && (
+            <div className="mb-16">
+              <h2
+                className="text-3xl font-light mb-6"
+                style={{
+                  fontFamily: 'var(--font-heading)',
+                  color: 'var(--color-brown)',
+                  letterSpacing: '-0.01em'
+                }}
+              >
+                Aftercare
+              </h2>
+              <div
+                className="p-8 rounded-lg"
+                style={{ backgroundColor: 'var(--color-white)' }}
+              >
+                <p
+                  className="leading-relaxed"
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    color: 'var(--color-brown)',
+                    opacity: 0.85,
+                    letterSpacing: '0.04em'
+                  }}
+                >
+                  {treatment.aftercare}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Results */}
+          {treatment.results && (
+            <div className="mb-16">
+              <h2
+                className="text-3xl font-light mb-6"
+                style={{
+                  fontFamily: 'var(--font-heading)',
+                  color: 'var(--color-brown)',
+                  letterSpacing: '-0.01em'
+                }}
+              >
+                Results
+              </h2>
+              <div
+                className="p-8 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 border border-green-100"
+              >
+                <p
+                  className="leading-relaxed"
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    color: 'var(--color-brown)',
+                    opacity: 0.85,
+                    letterSpacing: '0.04em'
+                  }}
+                >
+                  {treatment.results}
+                </p>
               </div>
             </div>
           )}

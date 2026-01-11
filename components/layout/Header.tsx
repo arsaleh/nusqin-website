@@ -2,18 +2,20 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { COMPANY_INFO } from '@/lib/constants';
+import { COMPANY_INFO, TREATMENTS } from '@/lib/constants';
 import Button from '@/components/ui/Button';
 
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'About Us', href: '/about' },
-  { name: 'Services', href: '/#treatments' },
+  { name: 'Services', href: '/#treatments', hasSubmenu: true },
+  { name: 'Financing', href: '/#financing' },
   { name: 'Contact Us', href: '/contact' },
 ];
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [servicesExpanded, setServicesExpanded] = useState(false);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100">
@@ -47,12 +49,7 @@ export default function Header() {
           </div>
 
           {/* CTA Button */}
-          <div className="hidden md:flex md:items-center md:gap-4">
-            <button className="p-2 text-gray-500 hover:text-gray-700">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
+          <div className="hidden md:flex md:items-center">
             <Button href="/contact" size="sm">
               Book Appointment
             </Button>
@@ -82,14 +79,55 @@ export default function Header() {
           <div className="md:hidden py-4 border-t border-gray-100">
             <div className="space-y-1">
               {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="block px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
+                <div key={item.name}>
+                  {item.hasSubmenu ? (
+                    <>
+                      <button
+                        onClick={() => setServicesExpanded(!servicesExpanded)}
+                        className="flex items-center justify-between w-full px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg"
+                      >
+                        <span>{item.name}</span>
+                        <svg
+                          className={`w-4 h-4 transition-transform ${servicesExpanded ? 'rotate-180' : ''}`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                      {servicesExpanded && (
+                        <div className="pl-4 space-y-1">
+                          <Link
+                            href={item.href}
+                            className="block px-3 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg"
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            View All Services
+                          </Link>
+                          {TREATMENTS.map((treatment) => (
+                            <Link
+                              key={treatment.id}
+                              href={`/treatments/${treatment.slug}`}
+                              className="block px-3 py-2 text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-lg"
+                              onClick={() => setMobileMenuOpen(false)}
+                            >
+                              {treatment.name}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      className="block px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  )}
+                </div>
               ))}
               <div className="px-3 pt-4">
                 <Button href="/contact" size="sm" className="w-full">

@@ -5,13 +5,13 @@ import { FEATURED_TREATMENTS } from '@/lib/constants';
 // Image mapping for each treatment from nusqin.com
 const treatmentImages: Record<string, string> = {
   'botox': 'https://nusqin.com/wp-content/uploads/2024/04/WhatsApp-Image-2024-04-18-at-9.41.25-PM.jpeg',
-  'dermal-fillers': 'https://nusqin.com/wp-content/uploads/2024/04/WhatsApp-Image-2024-04-16-at-4.02.55-AM-1.jpeg',
+  'dermal-fillers': 'https://images.unsplash.com/photo-1598300188904-6287d52746ad?w=2000&auto=format&fit=crop&q=80',
   'microneedling': 'https://nusqin.com/wp-content/uploads/2024/04/woman-holding-device-microneedle-mesotherapy-doing-skin-resurfacing-procedure-1471428695_6847x4565-scaled.jpeg',
   'platelet-rich-plasma': 'https://nusqin.com/wp-content/uploads/2024/04/prp-therapy-process-for-hair-loss-1364189789_8192x5464.jpeg',
   'laser-treatment': 'https://nusqin.com/wp-content/uploads/2024/04/Laser.jpg',
   'minor-surgeries': 'https://nusqin.com/wp-content/uploads/2024/04/person-pointing-to-lipoma-1607281866_6000x4000-scaled.jpeg',
   'tempsure': 'https://nusqin.com/wp-content/uploads/2024/04/Laser_2.jpg',
-  'chemical-peels': 'https://nusqin.com/wp-content/uploads/2024/04/WhatsApp-Image-2024-04-16-at-4.14.47-AM-1-e1713472748483-300x205.jpeg',
+  'chemical-peels': '/treatments/chemical-peels.jpeg',
 };
 
 export default function Services() {

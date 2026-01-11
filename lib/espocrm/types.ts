@@ -14,6 +14,35 @@ export interface BaseEntity {
   modifiedById?: string;
 }
 
+// Contact Entity (EspoCRM built-in)
+export interface Contact extends BaseEntity {
+  firstName: string;
+  lastName: string;
+  salutationName?: string;
+  emailAddress?: string;
+  phoneNumber?: string;
+  description?: string;
+  accountId?: string;
+  accountName?: string;
+  assignedUserId?: string;
+  assignedUserName?: string;
+}
+
+// Case Entity (EspoCRM built-in) - for tracking inquiries
+export interface Case extends BaseEntity {
+  name: string; // Case title/subject
+  status?: 'New' | 'Assigned' | 'Pending' | 'Closed' | 'Duplicate' | 'Rejected';
+  priority?: 'Low' | 'Normal' | 'High' | 'Urgent';
+  type?: string;
+  description?: string;
+  contactId?: string;
+  contactName?: string;
+  accountId?: string;
+  accountName?: string;
+  assignedUserId?: string;
+  assignedUserName?: string;
+}
+
 // Patient Entity
 export interface Patient extends BaseEntity {
   firstName: string;
@@ -38,6 +67,7 @@ export interface Patient extends BaseEntity {
   preferredDoctorName?: string;
   patientStatus?: 'Active' | 'Inactive' | 'Archived';
   consentFormsIds?: string[];
+  description?: string;
 }
 
 // Appointment Entity

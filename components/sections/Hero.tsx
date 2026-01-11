@@ -1,43 +1,39 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
+import { useState, useEffect, useRef } from 'react';
 import Button from '@/components/ui/Button';
+import CountUp from '@/components/ui/CountUp';
 
-// Treatment images for slider from nusqin.com
-const sliderImages = [
+// Treatment videos - vertical format
+const treatmentVideos = [
   {
-    src: 'https://nusqin.com/wp-content/uploads/2024/04/WhatsApp-Image-2024-04-18-at-9.41.25-PM.jpeg',
-    alt: 'Botox Treatment'
+    src: '/video/botox-reel.mp4',
+    title: 'Botox Treatment',
+    label: 'Botox'
   },
   {
-    src: 'https://nusqin.com/wp-content/uploads/2024/04/WhatsApp-Image-2024-04-16-at-4.02.55-AM-1.jpeg',
-    alt: 'Dermal Fillers'
-  },
-  {
-    src: 'https://nusqin.com/wp-content/uploads/2024/04/woman-holding-device-microneedle-mesotherapy-doing-skin-resurfacing-procedure-1471428695_6847x4565-scaled.jpeg',
-    alt: 'Microneedling Treatment'
-  },
-  {
-    src: 'https://nusqin.com/wp-content/uploads/2024/04/Laser.jpg',
-    alt: 'Laser Treatment'
-  },
-  {
-    src: 'https://nusqin.com/wp-content/uploads/2024/04/prp-therapy-process-for-hair-loss-1364189789_8192x5464.jpeg',
-    alt: 'PRP Therapy'
+    src: '/video/laser-reel.mp4',
+    title: 'Laser Hair Removal',
+    label: 'Laser'
   },
 ];
 
 export default function Hero() {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentVideo, setCurrentVideo] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Auto-advance slider every 5 seconds
+  // Handle video end - switch to next
+  const handleVideoEnd = () => {
+    setCurrentVideo((prev) => (prev + 1) % treatmentVideos.length);
+  };
+
+  // Reset video when switching
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play();
+    }
+  }, [currentVideo]);
 
   return (
     <section className="relative min-h-screen flex items-center pt-20 bg-gray-50">
@@ -80,7 +76,7 @@ export default function Hero() {
             <div className="grid grid-cols-3 gap-6 pt-8 border-t border-gray-200">
               <div className="text-center lg:text-left">
                 <div className="text-3xl lg:text-4xl font-bold text-gray-900 mb-1">
-                  10+
+                  <CountUp end={10} suffix="+" duration={2000} />
                 </div>
                 <div className="text-sm text-gray-500">
                   Years Experience
@@ -88,7 +84,7 @@ export default function Hero() {
               </div>
               <div className="text-center lg:text-left">
                 <div className="text-3xl lg:text-4xl font-bold text-gray-900 mb-1">
-                  5000+
+                  <CountUp end={5000} suffix="+" duration={2500} />
                 </div>
                 <div className="text-sm text-gray-500">
                   Happy Clients
@@ -96,7 +92,7 @@ export default function Hero() {
               </div>
               <div className="text-center lg:text-left">
                 <div className="text-3xl lg:text-4xl font-bold text-gray-900 mb-1">
-                  8
+                  <CountUp end={7} duration={1500} />
                 </div>
                 <div className="text-sm text-gray-500">
                   Treatments
@@ -105,41 +101,52 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right Side - Image Slider */}
+          {/* Right Side - Video Player */}
           <div className="order-1 lg:order-2 relative">
-            {/* Image Container */}
-            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-lg border border-gray-100">
-              {/* Image Slider */}
-              {sliderImages.map((image, index) => (
-                <div
-                  key={index}
-                  className={`absolute inset-0 transition-opacity duration-1000 ${
-                    index === currentSlide ? 'opacity-100' : 'opacity-0'
-                  }`}
+            {/* Video Container - Phone-like frame */}
+            <div className="relative mx-auto w-full max-w-[320px] lg:max-w-[360px]">
+              {/* Phone Frame */}
+              <div className="relative aspect-[9/16] rounded-[2.5rem] overflow-hidden shadow-2xl bg-black ring-4 ring-gray-800">
+                {/* Video */}
+                <video
+                  ref={videoRef}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  autoPlay
+                  muted
+                  playsInline
+                  onEnded={handleVideoEnd}
                 >
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    fill
-                    className="object-cover"
-                    priority={index === 0}
-                  />
-                </div>
-              ))}
+                  <source src={treatmentVideos[currentVideo].src} type="video/mp4" />
+                </video>
 
-              {/* Slider Indicators */}
-              <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2">
-                {sliderImages.map((_, index) => (
+                {/* Video Label Overlay */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                  <p className="text-white text-lg font-semibold">
+                    {treatmentVideos[currentVideo].title}
+                  </p>
+                  <p className="text-white/70 text-sm">
+                    See our real treatments in action
+                  </p>
+                </div>
+
+                {/* Notch (for phone effect) */}
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-black rounded-full"></div>
+              </div>
+
+              {/* Video Selector Pills */}
+              <div className="flex justify-center gap-3 mt-6">
+                {treatmentVideos.map((video, index) => (
                   <button
                     key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      index === currentSlide
-                        ? 'bg-white w-8'
-                        : 'bg-white/50 w-2 hover:bg-white/70'
+                    onClick={() => setCurrentVideo(index)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                      index === currentVideo
+                        ? 'bg-blue-500 text-white shadow-lg'
+                        : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
                     }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
+                  >
+                    {video.label}
+                  </button>
                 ))}
               </div>
             </div>
