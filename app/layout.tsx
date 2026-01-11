@@ -40,6 +40,14 @@ export default function RootLayout({
           src={`//js.hs-scripts.com/${HUBSPOT_CONFIG.portalId}.js`}
         />
 
+        {/* Cloudflare Web Analytics */}
+        <Script
+          id="cf-web-analytics"
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "81eb376022364ea6b9e437bc97295103"}'
+        />
+
         <Header />
         <main>{children}</main>
         <Footer />
