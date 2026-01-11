@@ -43,7 +43,8 @@ export async function submitToHubSpot(
     throw new Error('HubSpot Form ID is required');
   }
 
-  const url = `https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`;
+  // Use region-specific endpoint (na3 for North America)
+  const url = `https://api-na3.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`;
 
   try {
     const payload = {

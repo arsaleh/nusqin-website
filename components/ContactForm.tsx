@@ -1,54 +1,69 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
+import { submitToHubSpot, convertToHubSpotFields } from '@/lib/hubspot';
+import { HUBSPOT_CONFIG, TURNSTILE_SITE_KEY } from '@/lib/constants';
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    firstname: '',
+    lastname: '',
     email: '',
     phone: '',
-    treatmentInterest: '',
+    treatment_interest: '',
     message: '',
   });
 
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Check Turnstile token
+    if (!turnstileToken) {
+      setStatus('error');
+      setErrorMessage('Please complete the security check');
+      return;
+    }
+
     setStatus('submitting');
     setErrorMessage('');
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      // Submit directly to HubSpot Forms API
+      const fields = convertToHubSpotFields(formData);
+
+      await submitToHubSpot(HUBSPOT_CONFIG.contactFormId, {
+        fields,
+        context: {
+          pageUri: window.location.href,
+          pageName: 'Contact - Book a Consultation',
         },
-        body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setStatus('success');
-        // Reset form
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          treatmentInterest: '',
-          message: '',
-        });
-      } else {
-        setStatus('error');
-        setErrorMessage(data.error || 'Something went wrong');
-      }
+      setStatus('success');
+      // Reset form
+      setFormData({
+        firstname: '',
+        lastname: '',
+        email: '',
+        phone: '',
+        treatment_interest: '',
+        message: '',
+      });
+      // Reset Turnstile
+      turnstileRef.current?.reset();
+      setTurnstileToken(null);
     } catch (error) {
       setStatus('error');
-      setErrorMessage('Network error. Please try again.');
+      setErrorMessage(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
+      // Reset Turnstile on error
+      turnstileRef.current?.reset();
+      setTurnstileToken(null);
     }
   };
 
@@ -80,30 +95,30 @@ export default function ContactForm() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="firstName" className="block text-sm font-medium mb-1">
+            <label htmlFor="firstname" className="block text-sm font-medium mb-1">
               First Name *
             </label>
             <input
               type="text"
-              id="firstName"
-              name="firstName"
+              id="firstname"
+              name="firstname"
               required
-              value={formData.firstName}
+              value={formData.firstname}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             />
           </div>
 
           <div>
-            <label htmlFor="lastName" className="block text-sm font-medium mb-1">
+            <label htmlFor="lastname" className="block text-sm font-medium mb-1">
               Last Name *
             </label>
             <input
               type="text"
-              id="lastName"
-              name="lastName"
+              id="lastname"
+              name="lastname"
               required
-              value={formData.lastName}
+              value={formData.lastname}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             />
@@ -119,6 +134,7 @@ export default function ContactForm() {
             id="email"
             name="email"
             required
+            placeholder="john@example.com"
             value={formData.email}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
@@ -127,12 +143,14 @@ export default function ContactForm() {
 
         <div>
           <label htmlFor="phone" className="block text-sm font-medium mb-1">
-            Phone Number
+            Phone Number *
           </label>
           <input
             type="tel"
             id="phone"
             name="phone"
+            required
+            placeholder="604-555-1234"
             value={formData.phone}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
@@ -140,24 +158,23 @@ export default function ContactForm() {
         </div>
 
         <div>
-          <label htmlFor="treatmentInterest" className="block text-sm font-medium mb-1">
+          <label htmlFor="treatment_interest" className="block text-sm font-medium mb-1">
             Treatment Interest
           </label>
           <select
-            id="treatmentInterest"
-            name="treatmentInterest"
-            value={formData.treatmentInterest}
+            id="treatment_interest"
+            name="treatment_interest"
+            value={formData.treatment_interest}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
           >
             <option value="">Select a treatment...</option>
-            <option value="Botox">Botox</option>
+            <option value="Botox">Botox®</option>
             <option value="Dermal Fillers">Dermal Fillers</option>
             <option value="Microneedling">Microneedling</option>
-            <option value="PRP (Platelet-Rich Plasma)">PRP (Platelet-Rich Plasma)</option>
+            <option value="PRP (Platelet-Rich Plasma)">Platelet-Rich Plasma (PRP)</option>
             <option value="Laser Treatment">Laser Treatment</option>
-            <option value="Minor Surgery">Minor Surgery</option>
-            <option value="TempSure">TempSure</option>
+            <option value="Minor Surgery">Minor Surgeries</option>
             <option value="Chemical Peels">Chemical Peels</option>
             <option value="Consultation">General Consultation</option>
           </select>
@@ -178,13 +195,29 @@ export default function ContactForm() {
           />
         </div>
 
+        {/* Cloudflare Turnstile Widget */}
+        <div className="flex justify-center">
+          <Turnstile
+            ref={turnstileRef}
+            siteKey={TURNSTILE_SITE_KEY}
+            onSuccess={(token) => setTurnstileToken(token)}
+            onError={() => {
+              setTurnstileToken(null);
+              setErrorMessage('Security check failed. Please try again.');
+            }}
+            onExpire={() => setTurnstileToken(null)}
+            options={{
+              theme: 'light',
+            }}
+          />
+        </div>
+
         <button
           type="submit"
-          disabled={status === 'submitting'}
-          className="w-full px-6 py-3 text-white rounded transition-colors"
+          disabled={status === 'submitting' || !turnstileToken}
+          className="w-full px-6 py-3 text-white rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           style={{
             backgroundColor: 'var(--color-primary)',
-            opacity: status === 'submitting' ? 0.7 : 1,
           }}
         >
           {status === 'submitting' ? 'Submitting...' : 'Book Consultation'}

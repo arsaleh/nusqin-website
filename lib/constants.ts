@@ -33,7 +33,11 @@ export interface Treatment {
   shortDescription: string;
   benefits: string[];
   conditionsTreated?: string[];
+  enhancements?: string[];
   process?: string[];
+  recovery?: string[];
+  aftercare?: string;
+  results?: string;
   maintenance?: string;
   icon: string;
   featured: boolean;
@@ -60,9 +64,10 @@ export const TREATMENTS: Treatment[] = [
     conditionsTreated: [
       'Frown lines and forehead wrinkles',
       'Crow\'s feet',
+      'Lower face and neck',
       'Chronic migraines',
-      'Excessive sweating',
-      'Eye twitching',
+      'Hyperhidrosis (excessive sweating)',
+      'Jaw clenching / teeth grinding (bruxism)',
     ],
     maintenance: 'Retreatment recommended every three to six months to sustain effects',
     icon: '💉',
@@ -89,6 +94,12 @@ export const TREATMENTS: Treatment[] = [
       'Hollow cheeks',
       'Deep smile lines',
       'Under-eye hollows',
+      'Skin booster fillers for hydration, glow, and skin quality',
+      'Sagging / skin laxity support',
+      'Face framing and contour enhancement',
+      'Chin augmentation and profile balancing',
+      'Cheek augmentation and mid-face lift',
+      'Temporal (temple) volume loss',
     ],
     process: [
       'Consultation to determine treatment areas',
@@ -126,6 +137,18 @@ export const TREATMENTS: Treatment[] = [
       'Uneven skin texture',
       'Fine lines and wrinkles',
     ],
+    enhancements: [
+      'PRP (Platelet-Rich Plasma) enhanced microneedling for advanced healing and collagen stimulation',
+      'Mesotherapy solutions tailored to individual skin concerns',
+      'Salmon DNA (PDRN) boosting and rejuvenation for skin repair, elasticity, and glow',
+    ],
+    recovery: [
+      'Day 0–1: Redness, warmth, mild swelling (similar to a sunburn)',
+      'Days 2–3: Pinkness, tightness, dryness, light flaking',
+      'Days 4–7: Skin looks brighter and smoother',
+    ],
+    aftercare: 'Avoid makeup for 24 hours. No sun exposure, heat, workouts, or swimming for 48 hours. Skip retinol, exfoliants, and active products for 5–7 days. Use a gentle cleanser, hydrating moisturizer, and daily SPF 45+. Contact us if redness or swelling worsens after 72 hours.',
+    results: 'Visible glow in approximately 1 week. Collagen improvement continues over 4–6 weeks for lasting results.',
     icon: '🌟',
     featured: true,
   },
@@ -180,9 +203,7 @@ export const TREATMENTS: Treatment[] = [
       'Unwanted hair',
       'Spider veins and broken capillaries',
       'Age spots and sun damage',
-      'Uneven skin tone',
       'Vascular lesions',
-      'Pigmented lesions',
     ],
     process: [
       'Consultation and skin assessment',
@@ -228,73 +249,38 @@ export const TREATMENTS: Treatment[] = [
     featured: true,
   },
   {
-    id: 'tempsure',
-    name: 'TempSure',
-    slug: 'tempsure',
-    description:
-      'TempSure is a radiofrequency skin tightening procedure that gently warms your skin\'s surface and deeper layers to precise temperatures, promoting collagen production and cell turnover to tighten and tone your skin.',
-    shortDescription:
-      'Radiofrequency skin tightening to reduce fine lines, tighten sagging skin, and smooth cellulite.',
-    benefits: [
-      'Non-invasive skin tightening',
-      'Stimulates natural collagen production',
-      'Quick and comfortable procedure',
-      'No downtime required',
-      'Gradual, natural-looking results',
-      'Safe for all skin types',
-    ],
-    conditionsTreated: [
-      'Facial fine lines',
-      'Sagging facial tissue',
-      'Cellulite reduction',
-      'Signs of aging',
-      'Skin laxity',
-      'Loss of facial firmness',
-    ],
-    process: [
-      'Skin assessment and treatment planning',
-      'Application of conductive gel',
-      'Controlled radiofrequency warming',
-      'Comfortable treatment session (30-60 minutes)',
-      'Multiple sessions for optimal results',
-    ],
-    maintenance: 'Maintenance treatments recommended every 6-12 months to sustain collagen production',
-    icon: '🌡️',
-    featured: true,
-  },
-  {
     id: 'chemical-peels',
     name: 'Chemical Peels',
     slug: 'chemical-peels',
     description:
-      'A chemical peel, also known as chemexfoliation or dermapeeling, uses a chemical solution to improve the appearance of your skin. The solution causes controlled trauma to skin layers, which then peel away to reveal fresher, more youthful skin underneath.',
+      'A chemical peel, also known as chemexfoliation or dermapeeling, uses a specially formulated chemical solution to improve your skin\'s appearance. During treatment, the solution is applied to create controlled exfoliation of skin layers, which then peel away to reveal smoother, more youthful skin with fewer lines and wrinkles, more even color, and a brighter complexion. At NuSQIN, we offer light chemical peels—our preferred approach for safe, effective skin renewal. Superficial peels mean minimal downtime, fewer complications, and beautifully refreshed skin.',
     shortDescription:
-      'Professional chemical exfoliation to reveal smoother, brighter, more youthful-looking skin.',
+      'Light chemical peels for smoother, brighter skin with minimal downtime—our preferred approach for safe, effective skin renewal.',
     benefits: [
-      'Improves skin texture and tone',
-      'Reduces fine lines and wrinkles',
-      'Minimizes age spots and discoloration',
-      'Treats acne and acne scarring',
-      'Reveals fresh, radiant skin',
-      'Customizable depth and intensity',
+      'Smoother skin with fewer lines and wrinkles',
+      'More even skin tone and brighter complexion',
+      'Minimal downtime with light "lunchtime" peels',
+      'Safe for most skin types',
+      'Quick treatment with visible results',
+      'Can be repeated every 2-5 weeks for optimal results',
     ],
     conditionsTreated: [
-      'Fine lines and wrinkles',
-      'Sun damage and age spots',
-      'Uneven skin tone',
-      'Acne and acne scars',
+      'Fine wrinkling',
+      'Uneven skin coloring',
+      'Dry, rough sun-damaged skin',
+      'Age spots and discoloration',
       'Hyperpigmentation',
-      'Rough skin texture',
-      'Melasma',
+      'Dull, tired-looking skin',
     ],
     process: [
-      'Consultation to determine peel type and depth',
-      'Skin cleansing and preparation',
-      'Application of chemical solution',
-      'Controlled exposure time',
-      'Neutralization and post-treatment care',
+      'Thorough skin cleansing to remove excess oils',
+      'Eyes and hair protection applied',
+      'Chemical solution applied (glycolic, salicylic, or lactic acid)',
+      'Controlled exposure for light exfoliation',
+      'Post-treatment care instructions provided',
     ],
-    maintenance: 'Series of peels recommended every 4-6 weeks for optimal results, then quarterly maintenance',
+    aftercare: 'Expect mild sunburn-like redness followed by scaling lasting 3-7 days. Apply moisturizer as directed, wear daily sunscreen after healing, and avoid tanning during recovery. Makeup can typically be worn immediately or the next day.',
+    maintenance: 'Light peels can be repeated every 2-5 weeks. Typically 3-5 treatments are needed for optimal results, followed by periodic maintenance sessions.',
     icon: '✨',
     featured: true,
   },
@@ -305,7 +291,70 @@ export const FEATURED_TREATMENTS = TREATMENTS.filter((t) => t.featured);
 
 // HubSpot Configuration
 export const HUBSPOT_CONFIG = {
-  portalId: '342690538', // Your HubSpot portal ID
-  bookingFormId: 'c82125ae-3b06-457e-a9c2-e87e26c2cd4a', // Booking/Contact form
-  contactFormId: 'c82125ae-3b06-457e-a9c2-e87e26c2cd4a', // Same form for contact page
+  portalId: process.env.NEXT_PUBLIC_HUBSPOT_PORTAL_ID || '342874317',
+  bookingFormId: process.env.NEXT_PUBLIC_HUBSPOT_FORM_ID || 'b2f96c5d-faa8-4821-9f8f-3560864b16a2',
+  contactFormId: process.env.NEXT_PUBLIC_HUBSPOT_FORM_ID || 'b2f96c5d-faa8-4821-9f8f-3560864b16a2',
 };
+
+// Cloudflare Turnstile Configuration
+export const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAACLviBOCoFnmK_5i';
+
+// Team Member Interface
+export interface TeamMember {
+  name: string;
+  title: string;
+  credentials: string;
+  slug: string;
+  image: string;
+  bio: string;
+  specialties: string[];
+}
+
+// Team Members Data
+export const TEAM_MEMBERS: TeamMember[] = [
+  {
+    name: 'Dr. Sara Kahrobaei',
+    title: 'Family Physician / Medical Aesthetics Practitioner',
+    credentials: 'MD, CCFP, MRCS, DRCOG',
+    slug: 'dr-sara-kahrobaei',
+    image: '/team/sara-kahrobaee.jpg',
+    bio: 'Dr. Sara Kahrobaei graduated from IUMS back in 2005 and swiftly made her way to the UK. Initially diving into foundational surgical training, her passion for a more holistic approach to healthcare led her straight into the vibrant realm of family practice.\n\nCompleting a four-year residency in Family Medicine in July 2012, Dr. Kahrobaei began her professional career in London, UK. After 1.5 years, she moved to Canada for a new adventure and found her place at Burke Mountain Medical Centre, where she feels right at home.\n\nNotably, a Member of the College of Family Physicians in Canada and the UK, as well as a Member of the College of Surgeons of Scotland, Dr. Kahrobaei brings a wealth of expertise to her dedication to family medicine. In addition to family medicine, she has a special interest in women\'s and sexual health. Beyond just primary care, she has a knack for tending to her patients\' cosmetic concerns, specializing in filler injections that bring smiles to many faces.\n\nShe offers medical/surgical procedures and is now providing cosmetic thermal radiofrequency treatments, Botox, Dermal Filler and surgical removal of skin lesions for all patients. Her proficiency in these areas hasn\'t gone unnoticed. Colleagues often refer patients her way for specialized procedures like joint injections and skin lesion removals. These endeavors, which satisfy her surgical inclinations, are a testament to her unwavering commitment to providing comprehensive patient care.\n\nDr. Kahrobaei is actively involved in teaching medical students and assessing junior doctors and has been appointed a Clinical Instructor at the University of British Columbia. She\'s currently embarked on documenting intriguing cases she encounters in her day-to-day family practice. This endeavor reflects her deep-seated dedication to not only expanding medical knowledge but also sharing valuable insights and experiences within the medical community.',
+    specialties: [
+      'Family Medicine',
+      'Women\'s and Sexual Health',
+      'Botox & Dermal Fillers',
+      'Surgical Removal of Skin Lesions',
+      'Medical/Surgical Procedures'
+    ]
+  },
+  {
+    name: 'Dr. Ali Sanei-Moghaddam',
+    title: 'Family Physician / Medical Aesthetics Practitioner',
+    credentials: 'MD, CCFP, MRCS, DOHNS, ABFM',
+    slug: 'dr-ali-sanei-moghaddam',
+    image: '/team/ali-sanei.jpg',
+    bio: 'Dr. Sanei is a certified family physician specializing in surgery and dermatology, boasting extensive experience in both fields. As a member of the Royal College of Surgeons of Edinburgh, he also holds a Diploma in Otolaryngology and head and neck surgery from the Royal College of Surgeons of England. Dr. Sanei has garnered valuable experience through his practice in various countries, including the UK, Canada, and the USA.\n\nDr. Sanei-Moghaddam completed his Family Medicine Residency at UBC in 2018 and began his family medicine career at Burke Mountain Medical Center in the summer of 2018. He was trained in Otolaryngology and head and neck surgery in the UK before moving to Canada in 2014.\n\nHe is interested in cosmetic dermatology and is now offering surgical excisions for Medical and Cosmetic reasons. He accepts referrals for Joint & Trigger point injections.\n\nIn collaboration with his wife, Dr. Sara Kahrobaei, Dr. Sanei founded the NuSQIN Medical Centre. Their shared vision is centered on providing prompt dermatology and surgical services to patients in the tri-cities and surrounding areas.\n\nDr. Sanei is actively involved in teaching residents and has been appointed a Clinical Instructor at the University of British Columbia.',
+    specialties: [
+      'Family Medicine',
+      'Otolaryngology (ENT)',
+      'Head and Neck Surgery',
+      'Cosmetic Dermatology',
+      'Surgical Excisions',
+      'Joint & Trigger Point Injections'
+    ]
+  },
+  {
+    name: 'Dr. Neda Sadeghi',
+    title: 'Medical Aesthetician / Laser Technician',
+    credentials: 'MD (IMG)',
+    slug: 'dr-neda-sadeghi',
+    image: '/team/neda-sadeghi.jpg',
+    bio: 'Dr. Neda Sadeghi, MD (IMG), is an accomplished international medical graduate from Tehran University Medical School (TUMS). Alongside her medical background, she holds certifications as a laser technician and medical aesthetician, showcasing her expertise in the field.\n\nWith a wealth of experience in the aesthetic realm, Neda specializes in providing exceptional skin care consultations and laser services, catering to the unique needs of her clients. Her commitment lies in ensuring utmost client satisfaction, striving to deliver superior care and personalized treatments.\n\nDriven by a passion for aesthetics, Neda is dedicated to helping individuals achieve their desired skin goals and enhancing their overall confidence through her professional services.',
+    specialties: [
+      'Skin Care Consultations',
+      'Laser Treatments',
+      'Medical Aesthetics',
+      'Personalized Skin Treatments'
+    ]
+  }
+];
