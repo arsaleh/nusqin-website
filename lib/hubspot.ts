@@ -23,6 +23,83 @@ export interface HubSpotSubmissionResponse {
   }>;
 }
 
+// HubSpot error response structure
+export interface HubSpotErrorResponse {
+  status: 'error';
+  message: string;
+  correlationId?: string;
+  category?: string;
+  errors?: Array<{
+    message: string;
+    code?: string;
+    errorType?: string;
+    context?: {
+      propertyName?: string[];
+    };
+  }>;
+}
+
+// Parsed field error for UI display
+export interface FieldError {
+  field: string;
+  message: string;
+}
+
+// Custom error class with field-level details
+export class HubSpotValidationError extends Error {
+  fieldErrors: FieldError[];
+
+  constructor(message: string, fieldErrors: FieldError[] = []) {
+    super(message);
+    this.name = 'HubSpotValidationError';
+    this.fieldErrors = fieldErrors;
+  }
+}
+
+// Parse HubSpot error response into field errors
+function parseHubSpotErrors(errorResponse: HubSpotErrorResponse): FieldError[] {
+  const fieldErrors: FieldError[] = [];
+
+  // Handle errors array
+  if (errorResponse.errors && Array.isArray(errorResponse.errors)) {
+    for (const error of errorResponse.errors) {
+      const field = error.context?.propertyName?.[0] || '';
+
+      // Extract field name from message if not in context
+      let fieldName = field;
+      if (!fieldName && error.message) {
+        const match = error.message.match(/fields\.(\w+)/);
+        if (match) fieldName = match[1];
+      }
+
+      fieldErrors.push({
+        field: fieldName,
+        message: error.message,
+      });
+    }
+  }
+
+  // Handle embedded validation errors in message
+  if (errorResponse.message?.includes('Property values were not valid')) {
+    try {
+      const match = errorResponse.message.match(/\[(.+)\]/);
+      if (match) {
+        const validationErrors = JSON.parse(`[${match[1]}]`);
+        for (const err of validationErrors) {
+          fieldErrors.push({
+            field: err.name || '',
+            message: err.message || 'Invalid value',
+          });
+        }
+      }
+    } catch {
+      // Failed to parse, use generic message
+    }
+  }
+
+  return fieldErrors;
+}
+
 /**
  * Submit form data to HubSpot
  * @param formId - HubSpot form ID
@@ -70,7 +147,17 @@ export async function submitToHubSpot(
     console.log('HubSpot response:', { status: response.status, data: responseData });
 
     if (!response.ok) {
-      throw new Error(responseData.message || `Form submission failed (${response.status})`);
+      const errorResponse = responseData as HubSpotErrorResponse;
+      const fieldErrors = parseHubSpotErrors(errorResponse);
+
+      if (fieldErrors.length > 0) {
+        throw new HubSpotValidationError(
+          errorResponse.message || 'Validation failed',
+          fieldErrors
+        );
+      }
+
+      throw new Error(errorResponse.message || `Form submission failed (${response.status})`);
     }
 
     return responseData;

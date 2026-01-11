@@ -1,28 +1,62 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
-import { submitToHubSpot, convertToHubSpotFields } from '@/lib/hubspot';
+import { submitToHubSpot, convertToHubSpotFields, HubSpotValidationError } from '@/lib/hubspot';
 import { HUBSPOT_CONFIG, TURNSTILE_SITE_KEY } from '@/lib/constants';
 
-export default function ContactForm() {
-  const [formData, setFormData] = useState({
-    firstname: '',
-    lastname: '',
-    email: '',
-    phone: '',
-    treatment_interest: '',
-    message: '',
-  });
+// Local validation schema (matches HubSpot field requirements)
+const contactFormSchema = z.object({
+  firstname: z
+    .string()
+    .min(1, 'First name is required')
+    .min(2, 'First name must be at least 2 characters'),
+  lastname: z
+    .string()
+    .min(1, 'Last name is required')
+    .min(2, 'Last name must be at least 2 characters'),
+  email: z
+    .string()
+    .min(1, 'Email is required')
+    .email('Please enter a valid email address'),
+  phone: z
+    .string()
+    .min(1, 'Phone number is required')
+    .regex(/^[\d\s\-\+\(\)]{7,20}$/, 'Please enter a valid phone number'),
+  treatment_interest: z.string().optional(),
+  message: z.string().optional(),
+});
 
+type ContactFormData = z.infer<typeof contactFormSchema>;
+
+export default function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const turnstileRef = useRef<TurnstileInstance>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { errors },
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      firstname: '',
+      lastname: '',
+      email: '',
+      phone: '',
+      treatment_interest: '',
+      message: '',
+    },
+  });
 
+  const onSubmit = async (data: ContactFormData) => {
     // Check Turnstile token
     if (!turnstileToken) {
       setStatus('error');
@@ -34,8 +68,8 @@ export default function ContactForm() {
     setErrorMessage('');
 
     try {
-      // Submit directly to HubSpot Forms API
-      const fields = convertToHubSpotFields(formData);
+      // Submit to HubSpot Forms API
+      const fields = convertToHubSpotFields(data as Record<string, string>);
 
       await submitToHubSpot(HUBSPOT_CONFIG.contactFormId, {
         fields,
@@ -46,32 +80,32 @@ export default function ContactForm() {
       });
 
       setStatus('success');
-      // Reset form
-      setFormData({
-        firstname: '',
-        lastname: '',
-        email: '',
-        phone: '',
-        treatment_interest: '',
-        message: '',
-      });
-      // Reset Turnstile
+      reset();
       turnstileRef.current?.reset();
       setTurnstileToken(null);
     } catch (error) {
-      setStatus('error');
-      setErrorMessage(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
-      // Reset Turnstile on error
+      // Handle HubSpot validation errors (field-level)
+      if (error instanceof HubSpotValidationError) {
+        // Set field-specific errors from HubSpot response
+        for (const fieldError of error.fieldErrors) {
+          const fieldName = fieldError.field as keyof ContactFormData;
+          if (fieldName && fieldName in contactFormSchema.shape) {
+            setError(fieldName, {
+              type: 'server',
+              message: fieldError.message,
+            });
+          }
+        }
+        setStatus('error');
+        setErrorMessage('Please correct the errors below');
+      } else {
+        setStatus('error');
+        setErrorMessage(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
+      }
+
       turnstileRef.current?.reset();
       setTurnstileToken(null);
     }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
   };
 
   // Show only success message after submission
@@ -101,13 +135,13 @@ export default function ContactForm() {
         Book a Consultation
       </h2>
 
-      {status === 'error' && (
+      {status === 'error' && errorMessage && (
         <div className="mb-6 p-4 bg-red-100 text-red-800 rounded">
           {errorMessage}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label htmlFor="firstname" className="block text-sm font-medium mb-1">
@@ -116,12 +150,14 @@ export default function ContactForm() {
             <input
               type="text"
               id="firstname"
-              name="firstname"
-              required
-              value={formData.firstname}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+              {...register('firstname')}
+              className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] ${
+                errors.firstname ? 'border-red-500' : 'border-gray-300'
+              }`}
             />
+            {errors.firstname && (
+              <p className="mt-1 text-sm text-red-600">{errors.firstname.message}</p>
+            )}
           </div>
 
           <div>
@@ -131,12 +167,14 @@ export default function ContactForm() {
             <input
               type="text"
               id="lastname"
-              name="lastname"
-              required
-              value={formData.lastname}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+              {...register('lastname')}
+              className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] ${
+                errors.lastname ? 'border-red-500' : 'border-gray-300'
+              }`}
             />
+            {errors.lastname && (
+              <p className="mt-1 text-sm text-red-600">{errors.lastname.message}</p>
+            )}
           </div>
         </div>
 
@@ -147,13 +185,15 @@ export default function ContactForm() {
           <input
             type="email"
             id="email"
-            name="email"
-            required
             placeholder="john@example.com"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+            {...register('email')}
+            className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] ${
+              errors.email ? 'border-red-500' : 'border-gray-300'
+            }`}
           />
+          {errors.email && (
+            <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+          )}
         </div>
 
         <div>
@@ -163,13 +203,15 @@ export default function ContactForm() {
           <input
             type="tel"
             id="phone"
-            name="phone"
-            required
             placeholder="604-555-1234"
-            value={formData.phone}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+            {...register('phone')}
+            className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] ${
+              errors.phone ? 'border-red-500' : 'border-gray-300'
+            }`}
           />
+          {errors.phone && (
+            <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
+          )}
         </div>
 
         <div>
@@ -178,9 +220,7 @@ export default function ContactForm() {
           </label>
           <select
             id="treatment_interest"
-            name="treatment_interest"
-            value={formData.treatment_interest}
-            onChange={handleChange}
+            {...register('treatment_interest')}
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
           >
             <option value="">Select a treatment...</option>
@@ -201,10 +241,8 @@ export default function ContactForm() {
           </label>
           <textarea
             id="message"
-            name="message"
             rows={4}
-            value={formData.message}
-            onChange={handleChange}
+            {...register('message')}
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             placeholder="Tell us about your goals and any questions you have..."
           />
