@@ -16,7 +16,7 @@ export default function Footer() {
                 <path d="M20 8L32 20L20 32" stroke="#3b82f6" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
               <span className="text-xl font-semibold text-gray-900">
-                NUSQIN
+                NuSQIN
               </span>
             </div>
             <p className="text-sm text-gray-600 mb-6 leading-relaxed">

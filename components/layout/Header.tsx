@@ -31,7 +31,7 @@ export default function Header() {
               </svg>
             </div>
             <span className="text-xl font-semibold text-gray-900">
-              NUSQIN
+              NuSQIN
             </span>
           </Link>
 

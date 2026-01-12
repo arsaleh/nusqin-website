@@ -84,7 +84,7 @@ export default function Hero() {
               </div>
               <div className="text-center lg:text-left">
                 <div className="text-3xl lg:text-4xl font-bold text-gray-900 mb-1">
-                  <CountUp end={5000} suffix="+" duration={2500} />
+                  <CountUp end={500} suffix="+" duration={2500} />
                 </div>
                 <div className="text-sm text-gray-500">
                   Happy Clients

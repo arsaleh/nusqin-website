@@ -328,12 +328,12 @@ export const TEAM_MEMBERS: TeamMember[] = [
     ]
   },
   {
-    name: 'Dr. Ali Sanei-Moghaddam',
+    name: 'Dr. Ali Sanei',
     title: 'Family Physician / Medical Aesthetics Practitioner',
     credentials: 'MD, CCFP, MRCS, DOHNS, ABFM',
-    slug: 'dr-ali-sanei-moghaddam',
+    slug: 'dr-ali-sanei',
     image: '/team/ali-sanei.jpg',
-    bio: 'Dr. Sanei is a certified family physician specializing in surgery and dermatology, boasting extensive experience in both fields. As a member of the Royal College of Surgeons of Edinburgh, he also holds a Diploma in Otolaryngology and head and neck surgery from the Royal College of Surgeons of England. Dr. Sanei has garnered valuable experience through his practice in various countries, including the UK, Canada, and the USA.\n\nDr. Sanei-Moghaddam completed his Family Medicine Residency at UBC in 2018 and began his family medicine career at Burke Mountain Medical Center in the summer of 2018. He was trained in Otolaryngology and head and neck surgery in the UK before moving to Canada in 2014.\n\nHe is interested in cosmetic dermatology and is now offering surgical excisions for Medical and Cosmetic reasons. He accepts referrals for Joint & Trigger point injections.\n\nIn collaboration with his wife, Dr. Sara Kahrobaei, Dr. Sanei founded the NuSQIN Medical Centre. Their shared vision is centered on providing prompt dermatology and surgical services to patients in the tri-cities and surrounding areas.\n\nDr. Sanei is actively involved in teaching residents and has been appointed a Clinical Instructor at the University of British Columbia.',
+    bio: 'Dr. Sanei is a certified family physician specializing in surgery and dermatology, boasting extensive experience in both fields. As a member of the Royal College of Surgeons of Edinburgh, he also holds a Diploma in Otolaryngology and head and neck surgery from the Royal College of Surgeons of England. Dr. Sanei has garnered valuable experience through his practice in various countries, including the UK, Canada, and the USA.\n\nDr. Sanei completed his Family Medicine Residency at UBC in 2018 and began his family medicine career at Burke Mountain Medical Center in the summer of 2018. He was trained in Otolaryngology and head and neck surgery in the UK before moving to Canada in 2014.\n\nHe is interested in cosmetic dermatology and is now offering surgical excisions for Medical and Cosmetic reasons. He accepts referrals for Joint & Trigger point injections.\n\nIn collaboration with his wife, Dr. Sara Kahrobaei, Dr. Sanei founded the NuSQIN Medical Centre. Their shared vision is centered on providing prompt dermatology and surgical services to patients in the tri-cities and surrounding areas.\n\nDr. Sanei is actively involved in teaching residents and has been appointed a Clinical Instructor at the University of British Columbia.',
     specialties: [
       'Family Medicine',
       'Otolaryngology (ENT)',

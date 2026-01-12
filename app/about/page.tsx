@@ -26,7 +26,7 @@ export default function AboutPage() {
                 <span className="text-blue-500">Meets Artistry</span>
               </h1>
               <p className="text-lg text-gray-600 leading-relaxed mb-8">
-                NuSQIN Medical Aesthetics was founded by Dr. Sara Kahrobaei and Dr. Ali Sanei-Moghaddam
+                NuSQIN Medical Aesthetics was founded by Dr. Sara Kahrobaei and Dr. Ali Sanei
                 with a shared vision: to provide prompt, high-quality dermatology and surgical services
                 to patients in the Tri-Cities and surrounding areas.
               </p>
@@ -70,7 +70,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
               <p className="text-gray-600 leading-relaxed mb-6">
-                Dr. Sara Kahrobaei and Dr. Ali Sanei-Moghaddam bring together decades of combined
+                Dr. Sara Kahrobaei and Dr. Ali Sanei bring together decades of combined
                 experience in family medicine, surgery, and cosmetic dermatology. Both trained in
                 the UK and Canada, they share a commitment to excellence and patient-centered care.
               </p>
@@ -210,7 +210,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
               { number: '10+', label: 'Years Experience' },
-              { number: '5,000+', label: 'Happy Clients' },
+              { number: '500+', label: 'Happy Clients' },
               { number: '7', label: 'Treatments Offered' },
               { number: '3', label: 'Expert Practitioners' },
             ].map((stat, index) => (
